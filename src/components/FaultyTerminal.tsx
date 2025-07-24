@@ -229,7 +229,10 @@ void main() {
       col += (rnd - 0.5) * (uDither * 0.003922);
     }
 
-    gl_FragColor = vec4(col, 1.0);
+    // Make the background transparent so CSS background shows through
+    // Only render the terminal effect where there are actual digits
+    float alpha = length(col);
+    gl_FragColor = vec4(col, alpha);
 }
 `;
 
@@ -249,7 +252,7 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export default function FaultyTerminal({
-  scale = 1,
+  scale = 3,
   gridMul = [2, 1],
   digitSize = 1.5,
   timeScale = 0.3,
@@ -303,16 +306,16 @@ export default function FaultyTerminal({
     const ctn = containerRef.current;
     if (!ctn) return;
 
-    const renderer = new Renderer({ dpr });
+    const renderer = new Renderer({ dpr, alpha: true });
     rendererRef.current = renderer;
     const gl = renderer.gl;
     
-    // Set background color based on dark mode
-    if (isDarkMode) {
-      gl.clearColor(0, 0, 0, 1); // Black background
-    } else {
-      gl.clearColor(1, 1, 1, 1); // White background
-    }
+    // Enable alpha blending
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    
+    // Set transparent background so CSS background shows through
+    gl.clearColor(0, 0, 0, 0);
 
     const geometry = new Triangle(gl);
 
@@ -407,6 +410,12 @@ export default function FaultyTerminal({
       renderer.render({ scene: mesh });
     };
     rafRef.current = requestAnimationFrame(update);
+    
+    // Set canvas to be transparent and blend properly
+    gl.canvas.style.position = 'absolute';
+    gl.canvas.style.top = '0';
+    gl.canvas.style.left = '0';
+    gl.canvas.style.pointerEvents = 'none';
     ctn.appendChild(gl.canvas);
 
     if (mouseReact) ctn.addEventListener("mousemove", handleMouseMove);
@@ -431,12 +440,8 @@ export default function FaultyTerminal({
     
     if (!gl) return;
 
-    // Update background color when dark mode changes
-    if (isDarkMode) {
-      gl.clearColor(0, 0, 0, 1); // Black background
-    } else {
-      gl.clearColor(1, 1, 1, 1); // White background
-    }
+    // Adjust brightness based on theme - make it more vibrant in light mode
+    const adjustedBrightness = isDarkMode ? brightness : brightness * 1.2;
 
     // Update uniforms
     program.uniforms.uScale.value = scale;
@@ -452,7 +457,7 @@ export default function FaultyTerminal({
     program.uniforms.uTint.value = new Color(tintVec[0], tintVec[1], tintVec[2]);
     program.uniforms.uMouseStrength.value = mouseStrength;
     program.uniforms.uUseMouse.value = mouseReact ? 1 : 0;
-    program.uniforms.uBrightness.value = brightness;
+    program.uniforms.uBrightness.value = adjustedBrightness;
   }, [
     scale,
     gridMul,

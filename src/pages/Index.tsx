@@ -154,7 +154,7 @@ export default function Index() {
 
       <main className="pt-16">
         {/* Hero Section */}
-        <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-hidden bg-white dark:bg-black">
+        <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-hidden bg-gray-50 dark:bg-gray-950">
           <div className="absolute inset-0 z-0">
             <FaultyTerminal
               scale={1.5}
