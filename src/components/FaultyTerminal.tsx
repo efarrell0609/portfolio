@@ -252,7 +252,7 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export default function FaultyTerminal({
-  scale = 3,
+  scale = 1,
   gridMul = [2, 1],
   digitSize = 1.5,
   timeScale = 0.3,

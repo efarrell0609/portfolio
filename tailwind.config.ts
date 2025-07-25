@@ -12,7 +12,23 @@ export default {
         "2xl": "1400px",
       },
     },
-    extend: {},
+    extend: {
+      colors: {
+        neutral: {
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#2a2a2a',
+          800: '#1c1c1e',
+          900: '#141414',
+          950: '#0a0a0a',
+        }
+      }
+    },
   },
   plugins: [],
 } satisfies Config;
