@@ -4,10 +4,10 @@ import FaultyTerminal from "@/components/FaultyTerminal";
 export default function Index() {
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentColor, setCurrentColor] = useState('#4318D1');
+  const [currentColor, setCurrentColor] = useState('#F59E0B');
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   
-  const colors = ['#4318D1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316', '#EC4899'];
+  const colors = ['#F59E0B', '#4318D1', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316', '#EC4899', '#3B82F6', '#059669', '#A855F7', '#EA580C'];
 
   useEffect(() => {
     // Set initial dark mode based on system preference
@@ -203,7 +203,7 @@ export default function Index() {
                 </span>
               </h1>
               
-              <p className="text-xl sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
+              <p className="text-xl sm:text-lg text-gray-900 dark:text-white max-w-3xl mx-auto leading-relaxed mb-8">
                 Computer Science graduate passionate about building innovative
                 solutions and learning emerging technologies. Ready to make
                 an impact in the real world.
@@ -260,23 +260,16 @@ export default function Index() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                  Passionate Developer & Problem Solver
-                </h3>
-                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                  I'm a Computer Science graduate with a passion for hands-on
-                  technology work and continuous learning. My journey has been
-                  driven by curiosity and a love for solving complex problems
-                  through code.
+                              <div className="space-y-6">
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  I'm passionate about working with all sorts of technology whether it's building software, managing data, solving system issues, or learning new tools. I'm excited by the variety of paths within tech and open to opportunities in software development, data, IT, and other technical roles.
                 </p>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                  When I'm not coding, you'll find me exploring hiking trails or
-                  diving into the latest games. I believe that diverse
-                  experiences outside of tech make me a more creative and
-                  well-rounded developer.
+                  At my core, I love solving problems and figuring out how things work. I enjoy diving into complex systems, simplifying workflows, and contributing to projects that make a real impact.
                 </p>
-
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  Outside of tech, you'll usually find me on a hiking trail or deep into a new game. I think staying curious and engaged in different areas of life helps me stay creative and adaptable in my work too.
+                </p>
               </div>
               
                              <div className="relative">
@@ -328,7 +321,7 @@ export default function Index() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Technical Skills
+                Skills
               </h2>
               <div 
                 className="w-20 h-1 mx-auto rounded-full"
@@ -336,7 +329,8 @@ export default function Index() {
               />
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Technical Skills */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
               {/* Programming Languages */}
               <div className="bg-white dark:bg-neutral-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex items-center gap-3 mb-6">
@@ -395,39 +389,36 @@ export default function Index() {
                   ))}
                 </div>
               </div>
+            </div>
 
-              {/* Soft Skills */}
-              <div className="bg-white dark:bg-neutral-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-6">
-                  <div 
-                    className="w-12 h-12 rounded-lg flex items-center justify-center text-white"
-                    style={{ backgroundColor: currentColor }}
-                  >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
-                    </svg>
+            {/* Soft Skills */}
+            <div className="bg-white dark:bg-neutral-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div 
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-white"
+                  style={{ backgroundColor: currentColor }}
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Soft Skills
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-6 justify-center">
+                {[
+                  { name: 'Problem Solving & Critical Thinking', icon: '🧠' },
+                  { name: 'Team Collaboration', icon: '🤝' },
+                  { name: 'Communication', icon: '💬' },
+                  { name: 'Adaptability & Learning', icon: '🔄' },
+                  { name: 'Project Management', icon: '📋' }
+                ].map((skill) => (
+                  <div key={skill.name} className="flex flex-col items-center gap-3 p-4 rounded-lg bg-gray-50 dark:bg-neutral-600 hover:bg-gray-100 dark:hover:bg-neutral-500 transition-colors">
+                    <div className="text-3xl">{skill.icon}</div>
+                    <span className="text-gray-700 dark:text-gray-300 text-sm font-medium text-center max-w-32">{skill.name}</span>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Soft Skills
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  {[
-                    'Problem Solving & Critical Thinking',
-                    'Team Collaboration',
-                    'Communication',
-                    'Adaptability & Learning',
-                    'Project Management'
-                  ].map((skill) => (
-                    <div key={skill} className="flex items-center gap-3">
-                      <div 
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: currentColor }}
-                      />
-                      <span className="text-gray-600 dark:text-gray-300">{skill}</span>
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
           </div>

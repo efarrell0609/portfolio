@@ -440,9 +440,6 @@ export default function FaultyTerminal({
     
     if (!gl) return;
 
-    // Adjust brightness based on theme - make it more vibrant in light mode
-    const adjustedBrightness = isDarkMode ? brightness : brightness * 1.2;
-
     // Update uniforms
     program.uniforms.uScale.value = scale;
     program.uniforms.uGridMul.value = new Float32Array(gridMul);
@@ -457,7 +454,7 @@ export default function FaultyTerminal({
     program.uniforms.uTint.value = new Color(tintVec[0], tintVec[1], tintVec[2]);
     program.uniforms.uMouseStrength.value = mouseStrength;
     program.uniforms.uUseMouse.value = mouseReact ? 1 : 0;
-    program.uniforms.uBrightness.value = adjustedBrightness;
+    program.uniforms.uBrightness.value = brightness;
   }, [
     scale,
     gridMul,
@@ -473,7 +470,6 @@ export default function FaultyTerminal({
     mouseStrength,
     mouseReact,
     brightness,
-    isDarkMode,
   ]);
 
   return (
