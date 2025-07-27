@@ -1,3 +1,5 @@
+import { HoverCard } from "@/components/ScrollReveal";
+
 interface TechnologySkillsProps {
   currentColor: string;
 }
@@ -37,7 +39,7 @@ export default function TechnologySkills({ currentColor }: TechnologySkillsProps
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {technologies.map((tech) => (
-          <div key={tech.name} className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-neutral-600 hover:scale-105">
+          <HoverCard key={tech.name} scale={1.05} shadowIntensity={10} className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600">
             <div className="text-center">
               <div 
                 className="w-8 h-8 rounded-lg mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold"
@@ -47,7 +49,7 @@ export default function TechnologySkills({ currentColor }: TechnologySkillsProps
               </div>
               <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{tech.name}</span>
             </div>
-          </div>
+          </HoverCard>
         ))}
       </div>
     </div>

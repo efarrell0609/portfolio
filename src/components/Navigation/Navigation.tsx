@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
+import { useSettings } from "@/contexts/SettingsContext";
 
 interface NavigationProps {
   darkMode: boolean;
-  toggleDarkMode: () => void;
   currentColor: string;
-  setCurrentColor: (color: string) => void;
 }
 
-export default function Navigation({ darkMode, toggleDarkMode, currentColor, setCurrentColor }: NavigationProps) {
+export default function Navigation({ darkMode, currentColor }: NavigationProps) {
+  const { setDarkMode, setCurrentColor } = useSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -149,7 +149,7 @@ export default function Navigation({ darkMode, toggleDarkMode, currentColor, set
             
             {/* Dark Mode Toggle */}
             <button 
-              onClick={toggleDarkMode}
+              onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-lg bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 transition-all duration-200 hover:scale-105 hover:shadow-md"
             >
               {!darkMode ? (

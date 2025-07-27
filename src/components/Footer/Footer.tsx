@@ -1,3 +1,5 @@
+import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
+
 interface FooterProps {
   currentColor: string;
 }
@@ -7,14 +9,15 @@ export default function Footer({ currentColor }: FooterProps) {
     <footer className="bg-white dark:bg-black text-gray-900 dark:text-white py-16 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Main Footer Content - 3 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {/* Left Column - Brand */}
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Elijah Farrell</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-              Building the future, one line of code at a time.
-            </p>
-          </div>
+        <FadeInOnScroll direction="up" duration={800} delay={200} elementId="footer-main">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Left Column - Brand */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Elijah Farrell</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                Building the future, one line of code at a time.
+              </p>
+            </div>
 
           {/* Middle Column - Connect */}
           <div className="flex flex-col">
@@ -93,16 +96,19 @@ export default function Footer({ currentColor }: FooterProps) {
               </a>
             </div>
           </div>
-        </div>
+          </div>
+        </FadeInOnScroll>
         
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 dark:border-neutral-700 pt-8">
-          <div className="text-center">
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              &copy; 2025 Elijah Farrell. All rights reserved.
-            </p>
+        <FadeInOnScroll direction="up" duration={800} delay={400} elementId="footer-bottom">
+          <div className="border-t border-gray-200 dark:border-neutral-700 pt-8">
+            <div className="text-center">
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                &copy; 2025 Elijah Farrell. All rights reserved.
+              </p>
+            </div>
           </div>
-        </div>
+        </FadeInOnScroll>
       </div>
     </footer>
   );

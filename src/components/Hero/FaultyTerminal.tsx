@@ -301,6 +301,8 @@ export default function FaultyTerminal({
     mouseRef.current = { x, y };
   }, []);
 
+
+
   // Separate effect for WebGL setup (runs only once)
   useEffect(() => {
     const ctn = containerRef.current;
@@ -418,12 +420,24 @@ export default function FaultyTerminal({
     gl.canvas.style.pointerEvents = 'none';
     ctn.appendChild(gl.canvas);
 
-    if (mouseReact) ctn.addEventListener("mousemove", handleMouseMove);
+    if (mouseReact) {
+      ctn.addEventListener("mousemove", handleMouseMove);
+      // Listen for global mouse events from the overlay
+      ctn.addEventListener("globalmousemove", (e: any) => {
+        mouseRef.current = { x: e.detail.x, y: e.detail.y };
+        console.log('FaultyTerminal received mouse event:', e.detail); // Debug log
+      });
+    }
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
-      if (mouseReact) ctn.removeEventListener("mousemove", handleMouseMove);
+      if (mouseReact) {
+        ctn.removeEventListener("mousemove", handleMouseMove);
+        ctn.removeEventListener("globalmousemove", (e: any) => {
+          mouseRef.current = { x: e.detail.x, y: e.detail.y };
+        });
+      }
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
       loadAnimationStartRef.current = 0;
@@ -477,6 +491,7 @@ export default function FaultyTerminal({
       ref={containerRef}
       className={`w-full h-full relative overflow-hidden ${className || ''}`}
       style={style}
+      data-faulty-terminal="true"
       {...rest}
     />
   );
