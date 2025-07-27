@@ -37,7 +37,6 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
         createdAt: serverTimestamp()
       });
       
-      console.log('Comment added with ID:', docRef.id);
       return docRef;
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -70,7 +69,6 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      console.log('Email notification sent successfully');
     } catch (error) {
       console.error('Email notification failed:', error);
     }
@@ -89,6 +87,12 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
         } as Comment);
       });
       setComments(commentsData);
+    }, (error) => {
+      // Silently handle errors for manual deletions or network issues
+      // Only log critical errors that might indicate configuration issues
+      if (error.code !== 'permission-denied' && error.code !== 'unavailable') {
+        console.error('Firebase listener error:', error);
+      }
     });
 
     return () => unsubscribe();

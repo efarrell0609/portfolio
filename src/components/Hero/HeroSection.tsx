@@ -8,6 +8,11 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ darkMode, currentColor, windowWidth, scrollToSection }: HeroSectionProps) {
+  const nameStyle = {
+    color: currentColor,
+    whiteSpace: windowWidth < 301 ? 'normal' : 'nowrap' as const
+  };
+
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-hidden bg-gray-50 dark:bg-neutral-800">
       <div className="absolute inset-0 z-0">
@@ -45,11 +50,8 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
             </span>
           </div>
           
-          <h1 className="text-6xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            <span>Hi, I'm </span>
-            <span style={{ color: currentColor }}>
-              Elijah Farrell
-            </span>
+          <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+            <span>Hi, I'm <span style={nameStyle}>Elijah Farrell</span></span>
           </h1>
           
           <p className="text-xl sm:text-lg text-gray-900 dark:text-white max-w-3xl mx-auto leading-relaxed mb-8">
