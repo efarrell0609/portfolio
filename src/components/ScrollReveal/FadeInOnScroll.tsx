@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
 
 interface FadeInOnScrollProps {
@@ -11,7 +11,7 @@ interface FadeInOnScrollProps {
   className?: string;
   direction?: "up" | "down" | "left" | "right" | "none";
   distance?: number;
-  elementId?: string; // Unique identifier for caching
+  elementId?: string;
 }
 
 export default function FadeInOnScroll({
@@ -28,24 +28,23 @@ export default function FadeInOnScroll({
   const ref = useRef(null);
   const { isInAnimationCache, addToAnimationCache } = useSettings();
   const isInView = useInView(ref, { amount: threshold });
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   // Check if this element has already been animated
-  const hasBeenAnimated = elementId ? isInAnimationCache(elementId) : false;
+  const isCached = elementId ? isInAnimationCache(elementId) : false;
 
-  // Add to cache when animation completes
+  // Add to cache when element comes into view
   useEffect(() => {
-    if (isInView && elementId && !hasBeenAnimated) {
-      const timer = setTimeout(() => {
-        addToAnimationCache(elementId);
-      }, (duration + delay) / 1000 * 1000); // Wait for animation to complete
-
-      return () => clearTimeout(timer);
+    if (isInView && elementId && !isCached && !hasAnimated) {
+      setHasAnimated(true);
+      // Add to cache immediately when element comes into view
+      addToAnimationCache(elementId);
     }
-  }, [isInView, elementId, hasBeenAnimated, addToAnimationCache, duration, delay]);
+  }, [isInView, elementId, isCached, hasAnimated, addToAnimationCache]);
 
   const getInitialPosition = () => {
-    // If already animated, start from final position
-    if (hasBeenAnimated) {
+    // If already cached, start from final position
+    if (isCached) {
       return getAnimatePosition();
     }
 
@@ -80,10 +79,10 @@ export default function FadeInOnScroll({
     <motion.div
       ref={ref}
       initial={getInitialPosition()}
-      animate={isInView || hasBeenAnimated ? getAnimatePosition() : getInitialPosition()}
+      animate={isInView || isCached ? getAnimatePosition() : getInitialPosition()}
       transition={{
         duration: duration / 1000,
-        delay: hasBeenAnimated ? 0 : delay / 1000, // No delay if already animated
+        delay: isCached ? 0 : delay / 1000,
         ease: "easeOut",
       }}
       className={className}

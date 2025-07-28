@@ -8,14 +8,9 @@ interface SettingsContextType {
   setCurrentColor: (color: string) => void;
   
   // Animation cache
-  animationCache: Set<string>;
-  addToAnimationCache: (elementId: string) => void;
   isInAnimationCache: (elementId: string) => boolean;
+  addToAnimationCache: (elementId: string) => void;
   clearAnimationCache: () => void;
-  
-  // Settings persistence
-  saveSettings: () => void;
-  loadSettings: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -26,78 +21,15 @@ interface SettingsProviderProps {
 
 export function SettingsProvider({ children }: SettingsProviderProps) {
   // Theme state
-  const [darkMode, setDarkModeState] = useState(true); // Default to dark mode
-  const [currentColor, setCurrentColorState] = useState('#F59E0B'); // Default to gold/yellow
+  const [darkMode, setDarkModeState] = useState(true);
+  const [currentColor, setCurrentColorState] = useState('#F59E0B');
   
-  // Animation cache
+  // Simple animation cache using Set
   const [animationCache, setAnimationCache] = useState<Set<string>>(new Set());
+  const [cacheTimestamp, setCacheTimestamp] = useState<number>(Date.now());
   
   // Load settings from localStorage on mount
   useEffect(() => {
-    loadSettings();
-  }, []);
-  
-  // Save settings whenever they change
-  useEffect(() => {
-    saveSettings();
-  }, [darkMode, currentColor, animationCache]);
-  
-  // Apply dark mode to document
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-  
-  const setDarkMode = (newDarkMode: boolean) => {
-    setDarkModeState(newDarkMode);
-  };
-  
-  const setCurrentColor = (newColor: string) => {
-    setCurrentColorState(newColor);
-  };
-  
-  const addToAnimationCache = (elementId: string) => {
-    setAnimationCache(prev => {
-      const newCache = new Set([...prev, elementId]);
-      return newCache;
-    });
-  };
-  
-  const isInAnimationCache = (elementId: string) => {
-    return animationCache.has(elementId);
-  };
-
-  const clearAnimationCache = () => {
-    setAnimationCache(new Set());
-  };
-  
-  // Auto-clear animation cache after 30 minutes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimationCache(new Set());
-    }, 30 * 60 * 1000); // 30 minutes
-
-    return () => clearInterval(interval);
-  }, []);
-  
-  const saveSettings = () => {
-    try {
-      const settings = {
-        darkMode,
-        currentColor,
-        animationCache: Array.from(animationCache),
-        animationCacheTimestamp: Date.now()
-      };
-      localStorage.setItem('portfolioSettings', JSON.stringify(settings));
-    } catch (error) {
-      console.error('Failed to save settings:', error);
-    }
-  };
-  
-  const loadSettings = () => {
     try {
       const saved = localStorage.getItem('portfolioSettings');
       if (saved) {
@@ -112,21 +44,74 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
           setCurrentColorState(settings.currentColor);
         }
         
-        // Load animation cache (with expiration check)
+        // Load animation cache with timestamp check
         if (settings.animationCache && Array.isArray(settings.animationCache)) {
-          const cacheAge = Date.now() - (settings.animationCacheTimestamp || 0);
-          const cacheExpiration = 30 * 60 * 1000; // 30 minutes
+          const savedTimestamp = settings.cacheTimestamp || 0;
+          const now = Date.now();
+          const fifteenMinutes = 15 * 60 * 1000; // 15 minutes in milliseconds
           
-          if (cacheAge < cacheExpiration) {
+          // If cache is older than 15 minutes, don't load it
+          if (now - savedTimestamp < fifteenMinutes) {
             setAnimationCache(new Set(settings.animationCache));
+            setCacheTimestamp(savedTimestamp);
           } else {
+            // Cache is expired, start fresh
             setAnimationCache(new Set());
+            setCacheTimestamp(now);
           }
         }
       }
     } catch (error) {
       console.error('Failed to load settings:', error);
     }
+  }, []);
+  
+  // Apply dark mode to document
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+  
+  // Save settings whenever they change
+  useEffect(() => {
+    try {
+      const settings = {
+        darkMode,
+        currentColor,
+        animationCache: Array.from(animationCache),
+        cacheTimestamp
+      };
+      localStorage.setItem('portfolioSettings', JSON.stringify(settings));
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+    }
+  }, [darkMode, currentColor, animationCache, cacheTimestamp]);
+  
+  const setDarkMode = (newDarkMode: boolean) => {
+    setDarkModeState(newDarkMode);
+  };
+  
+  const setCurrentColor = (newColor: string) => {
+    setCurrentColorState(newColor);
+  };
+  
+  const addToAnimationCache = (elementId: string) => {
+    if (!elementId) return;
+    setAnimationCache(prev => new Set([...prev, elementId]));
+    setCacheTimestamp(Date.now());
+  };
+  
+  const isInAnimationCache = (elementId: string): boolean => {
+    if (!elementId) return false;
+    return animationCache.has(elementId);
+  };
+  
+  const clearAnimationCache = () => {
+    setAnimationCache(new Set());
+    setCacheTimestamp(Date.now());
   };
   
   const value: SettingsContextType = {
@@ -134,12 +119,9 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     currentColor,
     setDarkMode,
     setCurrentColor,
-    animationCache,
-    addToAnimationCache,
     isInAnimationCache,
-    clearAnimationCache,
-    saveSettings,
-    loadSettings
+    addToAnimationCache,
+    clearAnimationCache
   };
   
   return (

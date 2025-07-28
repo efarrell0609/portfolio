@@ -1,5 +1,6 @@
 import FaultyTerminal from "./FaultyTerminal";
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
+import { useSettings } from "@/contexts/SettingsContext";
 
 interface HeroSectionProps {
   darkMode: boolean;
@@ -9,6 +10,8 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ darkMode, currentColor, windowWidth, scrollToSection }: HeroSectionProps) {
+  const { clearAnimationCache } = useSettings();
+  
   const nameStyle = {
     color: currentColor,
     whiteSpace: windowWidth < 301 ? 'normal' : 'nowrap' as const
@@ -32,7 +35,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
           curvature={windowWidth < 768 ? 0.02 : 0.05}
           tint={currentColor}
           mouseReact={true}
-          mouseStrength={0.5}
+          mouseStrength={windowWidth < 768 ? 0.2 : windowWidth < 1024 ? 0.3 : 0.5}
           pageLoadAnimation={true}
           brightness={0.6}
           isDarkMode={darkMode}
@@ -52,10 +55,11 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
             faultTerminal.dispatchEvent(new CustomEvent('globalmousemove', {
               detail: { x, y }
             }));
-            console.log('Mouse move captured:', { x, y }); // Debug log
           }
         }}
       >
+
+        
         <FadeInOnScroll direction="up" duration={1000} delay={300} initialOpacity={0} elementId="hero-text">
           <div className="mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-neutral-600/80 backdrop-blur-sm border border-gray-200 dark:border-neutral-500 mb-6">
@@ -103,8 +107,8 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
           </div>
         </FadeInOnScroll>
         
-                       <FadeInOnScroll direction="up" duration={1000} delay={900} initialOpacity={0} elementId="hero-social">
-                 <div className="flex justify-center gap-6 sm:gap-4">
+        <FadeInOnScroll direction="up" duration={1000} delay={900} initialOpacity={0} elementId="hero-social">
+          <div className="flex justify-center gap-6 sm:gap-4">
             <HoverCard scale={1.1} shadowIntensity={15}>
               <a href="https://github.com/elijah-farrell" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/80 dark:bg-neutral-600/80 backdrop-blur-sm border border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 hover:shadow-lg">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

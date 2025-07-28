@@ -425,7 +425,6 @@ export default function FaultyTerminal({
       // Listen for global mouse events from the overlay
       ctn.addEventListener("globalmousemove", (e: any) => {
         mouseRef.current = { x: e.detail.x, y: e.detail.y };
-        console.log('FaultyTerminal received mouse event:', e.detail); // Debug log
       });
     }
 
