@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSettings } from "@/contexts/SettingsContext";
 
-interface NavigationProps {
-  darkMode: boolean;
-  currentColor: string;
-}
-
-export default function Navigation({ darkMode, currentColor }: NavigationProps) {
-  const { setDarkMode, setCurrentColor } = useSettings();
+export default function Navigation() {
+  const { darkMode, currentColor, setDarkMode, setCurrentColor } = useSettings();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [activeSection, setActiveSection] = useState('hero');
   
   const colors = ['#F59E0B', '#4318D1', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316', '#EC4899', '#3B82F6', '#059669', '#A855F7', '#EA580C'];
 
-  // Handle scroll events to hide/show navbar and update active section
+  // Handle scroll events to hide/show navbar
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -25,7 +22,6 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
       if (currentScrollY < 100) {
         setIsNavbarVisible(true);
         setLastScrollY(currentScrollY);
-        setActiveSection('hero');
         return;
       }
       
@@ -34,21 +30,6 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
         setIsNavbarVisible(false);
       } else if (currentScrollY < lastScrollY && !isNavbarVisible) {
         setIsNavbarVisible(true);
-      }
-      
-      // Update active section based on scroll position
-      const sections = ['hero', 'work', 'services', 'contact'];
-      const sectionElements = sections.map(id => document.getElementById(id));
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = sectionElements[i];
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
       }
       
       setLastScrollY(currentScrollY);
@@ -67,11 +48,34 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
     setColorPickerOpen(false);
   };
 
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('/#')) {
+      // If we're not on the home page, navigate to home first
+      if (location.pathname !== '/') {
+        navigate(href);
+      } else {
+        // We're already on home page, just scroll to section
+        const element = document.querySelector(href.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      // Regular navigation
+      navigate(href);
+    }
+  };
+
+  // Force re-render when location changes
+  useEffect(() => {
+    // This will trigger a re-render when location changes
+  }, [location.pathname, location.hash]);
+
   const navItems = [
-    { href: '#hero', label: 'Home', id: 'hero' },
-    { href: '#work', label: 'Work', id: 'work' },
-    { href: '#services', label: 'Services', id: 'services' },
-    { href: '#contact', label: 'Contact', id: 'contact' }
+    { href: '/', label: 'Home' },
+    { href: '/work', label: 'Work' },
+    { href: '/services', label: 'Services' },
+    { href: '/#contact', label: 'Contact' }
   ];
 
   return (
@@ -89,11 +93,14 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = (item.href === '/' && location.pathname === '/' && !location.hash) || 
+                              (item.href === '/work' && location.pathname === '/work') ||
+                              (item.href === '/services' && location.pathname === '/services') ||
+                              (item.href === '/#contact' && location.pathname === '/' && location.hash === '#contact');
               return (
-                <a 
-                  key={item.id}
-                  href={item.href} 
+                <button 
+                  key={item.href}
+                  onClick={() => handleNavigation(item.href)}
                   className={`relative font-medium group transition-all duration-300 ${
                     isActive 
                       ? 'text-gray-900 dark:text-white' 
@@ -114,7 +121,7 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 dark:via-neutral-700 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left rounded-md"></span>
                   {/* Hover underline */}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-400 dark:bg-gray-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
-                </a>
+                </button>
               );
             })}
           </div>
@@ -186,12 +193,18 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
           <div className="lg:hidden overflow-hidden transition-all duration-300 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
             <div className="px-4 py-4 space-y-3">
               {navItems.map((item) => {
-                const isActive = activeSection === item.id;
+                const isActive = (item.href === '/' && location.pathname === '/' && !location.hash) || 
+                                (item.href === '/work' && location.pathname === '/work') ||
+                                (item.href === '/services' && location.pathname === '/services') ||
+                                (item.href === '/#contact' && location.pathname === '/' && location.hash === '#contact');
                 return (
-                  <a 
-                    key={item.id}
-                    href={item.href} 
-                    className={`block font-medium py-2 pl-3 border-l-4 transition-all duration-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-neutral-800 ${
+                  <button 
+                    key={item.href}
+                    onClick={() => {
+                      handleNavigation(item.href);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block w-full text-left font-medium py-2 pl-3 border-l-4 transition-all duration-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-neutral-800 ${
                       isActive 
                         ? 'text-gray-900 dark:text-white border-l-4' 
                         : 'text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
@@ -199,7 +212,7 @@ export default function Navigation({ darkMode, currentColor }: NavigationProps) 
                     style={isActive ? { borderLeftColor: currentColor } : {}}
                   >
                     {item.label}
-                  </a>
+                  </button>
                 );
               })}
             </div>

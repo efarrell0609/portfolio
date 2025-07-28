@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
 import Navigation from "@/components/Navigation/Navigation";
-import HeroSection from "@/components/Hero/HeroSection";
-import AboutSection from "@/components/About/AboutSection";
-import EducationSection from "@/components/Education/EducationSection";
-import SkillsSection from "@/components/Skills/SkillsSection";
-import ContactSection from "@/components/Contact/ContactSection";
+import HeroSection from "@/components/Index/Hero/HeroSection";
+import AboutSection from "@/components/Index/About/AboutSection";
+import EducationSection from "@/components/Index/Education/EducationSection";
+import SkillsSection from "@/components/Index/Skills/SkillsSection";
+import ContactSection from "@/components/Index/Contact/ContactSection";
 import Footer from "@/components/Footer/Footer";
 
 export default function Index() {
@@ -35,10 +35,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-black">
-      <Navigation 
-        darkMode={darkMode}
-        currentColor={currentColor}
-      />
+      <Navigation />
 
       <main className="pt-16">
         <HeroSection 

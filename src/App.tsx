@@ -3,15 +3,19 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SettingsProvider } from "./contexts/SettingsContext";
 import Index from "./pages/Index";
+import Work from "./pages/Work";
+import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
   <SettingsProvider>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+              <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/work" element={<Work />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
     </BrowserRouter>
   </SettingsProvider>
 );
