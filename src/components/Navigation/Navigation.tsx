@@ -41,9 +41,12 @@ export default function Navigation() {
       setLastScrollY(currentScrollY);
     };
 
+    // Check initial scroll position when component mounts or location changes
+    handleScroll();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY, isNavbarVisible]);
+  }, [lastScrollY, isNavbarVisible, location.pathname]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
