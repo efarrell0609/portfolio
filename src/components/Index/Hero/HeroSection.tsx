@@ -88,7 +88,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
           <div className="flex gap-4 sm:flex-col sm:gap-3 justify-center mb-12">
             <HoverCard scale={1.05} shadowIntensity={20} className="w-full sm:w-auto">
               <button 
-                onClick={() => scrollToSection('about')}
+                onClick={() => window.location.href = '/work'}
                 className="w-full px-8 sm:px-12 md:px-16 py-4 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
                 style={{ backgroundColor: currentColor }}
               >
@@ -97,7 +97,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
             </HoverCard>
             <HoverCard scale={1.05} shadowIntensity={20} className="w-full sm:w-auto">
               <button 
-                onClick={() => scrollToSection('contact')}
+                onClick={() => window.location.href = '/contact'}
                 className="w-full px-8 sm:px-12 md:px-16 py-4 border-2 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-neutral-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
                 style={{ borderColor: currentColor }}
               >

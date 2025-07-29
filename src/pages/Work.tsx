@@ -58,8 +58,8 @@ export default function Work() {
   const projects: Project[] = [
     {
       title: "Portfolio Website",
-      description: "A responsive site built with HTML, CSS, and JavaScript featuring dynamic theming (light/dark mode and color picker), modern design, and a live comment section powered by a NoSQL cloud database (Firestore).",
-      technologies: ["HTML", "CSS", "JavaScript", "Firebase"],
+      description: "A modern, responsive portfolio built with React and TypeScript featuring dynamic theming (light/dark mode and color picker), smooth animations, and a live comment section powered by Firebase Firestore. Built with Vite for fast development and optimized performance.",
+      technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Firebase"],
       githubUrl: "https://github.com/elijah-farrell/portfolio",
       liveUrl: "https://elijah-farrell.github.io/portfolio"
     },
@@ -72,11 +72,11 @@ export default function Work() {
   ];
 
   return (
-    <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-black">
+    <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-white">
       <Navigation />
       <main className="pt-16">
         {/* Header section */}
-        <div className="py-20">
+        <div className="py-20 bg-gray-50 dark:bg-neutral-800">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="text-center">
               <h1 className="text-5xl sm:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -194,37 +194,6 @@ export default function Work() {
                               {tech}
                             </span>
                           ))}
-                        </div>
-
-                        <div className="flex gap-3">
-                          {project.githubUrl && (
-                            <a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex-1 px-4 py-2 rounded-xl font-semibold text-center"
-                              style={{ 
-                                backgroundColor: currentColor,
-                                color: 'white'
-                              }}
-                            >
-                              View Code
-                            </a>
-                          )}
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex-1 px-4 py-2 rounded-xl font-semibold text-center border-2"
-                              style={{ 
-                                borderColor: currentColor,
-                                color: currentColor
-                              }}
-                            >
-                              Live Demo
-                            </a>
-                          )}
                         </div>
                       </div>
                     </div>

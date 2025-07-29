@@ -55,7 +55,7 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 backdrop-blur-md bg-white/90 dark:bg-black/90 transition-transform duration-300 ${
+    <nav className={`fixed top-0 w-full z-50 backdrop-blur-md bg-white dark:bg-black transition-transform duration-300 ${
       isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
