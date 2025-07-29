@@ -35,7 +35,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
           curvature={windowWidth < 768 ? 0.02 : 0.05}
           tint={currentColor}
           mouseReact={true}
-          mouseStrength={windowWidth < 768 ? 0.2 : windowWidth < 1024 ? 0.3 : 0.5}
+          mouseStrength={windowWidth < 768 ? 0.1 : windowWidth < 1024 ? 0.2 : 0.3}
           pageLoadAnimation={true}
           brightness={0.6}
           isDarkMode={darkMode}
