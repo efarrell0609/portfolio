@@ -7,7 +7,10 @@ interface AboutSectionProps {
 
 export default function AboutSection({ currentColor }: AboutSectionProps) {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 bg-white dark:bg-black">
+    <section id="about" className="py-12 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-800 relative">
+      {/* Gradient transition at bottom */}
+      <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent"></div>
+      
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="about-header">
           <div className="text-center mb-16">

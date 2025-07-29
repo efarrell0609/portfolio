@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSettings } from "@/contexts/SettingsContext";
 
 export default function Navigation() {
   const { darkMode, currentColor, setDarkMode, setCurrentColor } = useSettings();
   const location = useLocation();
-  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -48,38 +47,15 @@ export default function Navigation() {
     setColorPickerOpen(false);
   };
 
-  const handleNavigation = (href: string) => {
-    if (href.startsWith('/#')) {
-      // If we're not on the home page, navigate to home first
-      if (location.pathname !== '/') {
-        navigate(href);
-      } else {
-        // We're already on home page, just scroll to section
-        const element = document.querySelector(href.substring(1));
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    } else {
-      // Regular navigation
-      navigate(href);
-    }
-  };
-
-  // Force re-render when location changes
-  useEffect(() => {
-    // This will trigger a re-render when location changes
-  }, [location.pathname, location.hash]);
-
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Work' },
     { href: '/services', label: 'Services' },
-    { href: '/#contact', label: 'Contact' }
+    { href: '/contact', label: 'Contact' }
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 backdrop-blur-md bg-white/90 dark:bg-black/90 border-b border-gray-200 dark:border-gray-800 transition-transform duration-300 ${
+    <nav className={`fixed top-0 w-full z-50 backdrop-blur-md bg-white/90 dark:bg-black/90 transition-transform duration-300 ${
       isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -93,14 +69,15 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => {
-              const isActive = (item.href === '/' && location.pathname === '/' && !location.hash) || 
+              const isActive = (item.href === '/' && location.pathname === '/') || 
                               (item.href === '/work' && location.pathname === '/work') ||
                               (item.href === '/services' && location.pathname === '/services') ||
-                              (item.href === '/#contact' && location.pathname === '/' && location.hash === '#contact');
+                              (item.href === '/contact' && location.pathname === '/contact');
+              
               return (
-                <button 
+                <Link 
                   key={item.href}
-                  onClick={() => handleNavigation(item.href)}
+                  to={item.href}
                   className={`relative font-medium group transition-all duration-300 ${
                     isActive 
                       ? 'text-gray-900 dark:text-white' 
@@ -121,7 +98,7 @@ export default function Navigation() {
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 dark:via-neutral-700 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left rounded-md"></span>
                   {/* Hover underline */}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-400 dark:bg-gray-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -193,17 +170,16 @@ export default function Navigation() {
           <div className="lg:hidden overflow-hidden transition-all duration-300 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
             <div className="px-4 py-4 space-y-3">
               {navItems.map((item) => {
-                const isActive = (item.href === '/' && location.pathname === '/' && !location.hash) || 
+                const isActive = (item.href === '/' && location.pathname === '/') || 
                                 (item.href === '/work' && location.pathname === '/work') ||
                                 (item.href === '/services' && location.pathname === '/services') ||
-                                (item.href === '/#contact' && location.pathname === '/' && location.hash === '#contact');
+                                (item.href === '/contact' && location.pathname === '/contact');
+                
                 return (
-                  <button 
+                  <Link 
                     key={item.href}
-                    onClick={() => {
-                      handleNavigation(item.href);
-                      setMobileMenuOpen(false);
-                    }}
+                    to={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
                     className={`block w-full text-left font-medium py-2 pl-3 border-l-4 transition-all duration-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-neutral-800 ${
                       isActive 
                         ? 'text-gray-900 dark:text-white border-l-4' 
@@ -212,7 +188,7 @@ export default function Navigation() {
                     style={isActive ? { borderLeftColor: currentColor } : {}}
                   >
                     {item.label}
-                  </button>
+                  </Link>
                 );
               })}
             </div>

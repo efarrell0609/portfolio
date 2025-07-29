@@ -9,7 +9,7 @@ interface SkillsSectionProps {
 
 export default function SkillsSection({ currentColor }: SkillsSectionProps) {
   return (
-    <section id="skills" className="py-20 px-4 sm:px-6 bg-white dark:bg-black">
+    <section id="skills" className="py-12 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-800">
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="skills-header">
           <div className="text-center mb-16">
