@@ -73,8 +73,8 @@ export default function Navigation() {
         const rect = faultTerminal.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;
         const y = 1 - (e.clientY - rect.top) / rect.height;
-        // Dispatch a custom event that FaultyTerminal can listen to
-        faultTerminal.dispatchEvent(new CustomEvent('globalmousemove', {
+        // Dispatch a custom event to document that FaultyTerminal can listen to
+        document.dispatchEvent(new CustomEvent('globalmousemove', {
           detail: { x, y }
         }));
       }
