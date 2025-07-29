@@ -48,7 +48,7 @@ export default function AboutSection({ currentColor }: AboutSectionProps) {
                   handle="elijahfarrell"
                   status="Available for Opportunities"
                   contactText="Contact Me"
-                  avatarUrl="/profile.jpg"
+                  avatarUrl=""
                   showUserInfo={false}
                   enableTilt={true}
                   enableMobileTilt={false}
