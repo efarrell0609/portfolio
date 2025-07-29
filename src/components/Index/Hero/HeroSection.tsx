@@ -1,6 +1,6 @@
-import FaultyTerminal from "./FaultyTerminal";
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
 import { useSettings } from "@/contexts/SettingsContext";
+import FaultyTerminal from "./FaultyTerminal";
 
 interface HeroSectionProps {
   darkMode: boolean;
@@ -58,7 +58,6 @@ export default function HeroSection({ darkMode, currentColor, windowWidth, scrol
           }
         }}
       >
-
         
         <FadeInOnScroll direction="up" duration={1000} delay={300} initialOpacity={0} elementId="hero-text">
           <div className="mb-8">

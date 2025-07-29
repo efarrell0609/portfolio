@@ -301,7 +301,12 @@ export default function FaultyTerminal({
     mouseRef.current = { x, y };
   }, []);
 
-
+  // Handle global mouse events from the navbar area
+  const handleGlobalMouseMove = useCallback((e: any) => {
+    if (e.detail && typeof e.detail.x === 'number' && typeof e.detail.y === 'number') {
+      mouseRef.current = { x: e.detail.x, y: e.detail.y };
+    }
+  }, []);
 
   // Separate effect for WebGL setup (runs only once)
   useEffect(() => {
@@ -422,10 +427,8 @@ export default function FaultyTerminal({
 
     if (mouseReact) {
       ctn.addEventListener("mousemove", handleMouseMove);
-      // Listen for global mouse events from the overlay
-      ctn.addEventListener("globalmousemove", (e: any) => {
-        mouseRef.current = { x: e.detail.x, y: e.detail.y };
-      });
+      // Listen for global mouse events from the navbar
+      document.addEventListener("globalmousemove", handleGlobalMouseMove);
     }
 
     return () => {
@@ -433,9 +436,7 @@ export default function FaultyTerminal({
       resizeObserver.disconnect();
       if (mouseReact) {
         ctn.removeEventListener("mousemove", handleMouseMove);
-        ctn.removeEventListener("globalmousemove", (e: any) => {
-          mouseRef.current = { x: e.detail.x, y: e.detail.y };
-        });
+        document.removeEventListener("globalmousemove", handleGlobalMouseMove);
       }
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();

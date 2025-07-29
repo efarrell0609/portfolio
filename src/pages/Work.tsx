@@ -74,7 +74,7 @@ export default function Work() {
   ];
 
   return (
-    <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-white">
+    <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300">
       <Navigation />
       <main className="pt-16">
         {/* Header section */}

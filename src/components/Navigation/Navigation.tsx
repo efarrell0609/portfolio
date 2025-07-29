@@ -9,13 +9,20 @@ export default function Navigation() {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
   
   const colors = ['#F59E0B', '#4318D1', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316', '#EC4899', '#3B82F6', '#059669', '#A855F7', '#EA580C'];
 
-  // Handle scroll events to hide/show navbar
+  // Check if we're on the home page
+  const isHomePage = location.pathname === '/';
+
+  // Handle scroll events to hide/show navbar and detect top position
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      // Check if at top of page
+      setIsAtTop(currentScrollY < 100);
       
       // Show navbar at the top of the page
       if (currentScrollY < 100) {
@@ -54,14 +61,50 @@ export default function Navigation() {
     { href: '/contact', label: 'Contact' }
   ];
 
+  // Only make navbar transparent on home page when at top
+  const shouldBeTransparent = isAtTop && isHomePage;
+
+  // Handle mouse events for FaultyTerminal when navbar is transparent
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (shouldBeTransparent) {
+      // Pass mouse events to the FaultyTerminal
+      const faultTerminal = document.querySelector('[data-faulty-terminal]');
+      if (faultTerminal) {
+        const rect = faultTerminal.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = 1 - (e.clientY - rect.top) / rect.height;
+        // Dispatch a custom event that FaultyTerminal can listen to
+        faultTerminal.dispatchEvent(new CustomEvent('globalmousemove', {
+          detail: { x, y }
+        }));
+      }
+    }
+  };
+
   return (
-    <nav className={`fixed top-0 w-full z-50 backdrop-blur-md bg-white dark:bg-black transition-transform duration-300 ${
-      isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
+    <nav 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
+      } ${
+        shouldBeTransparent 
+          ? 'bg-transparent backdrop-blur-none' 
+          : 'bg-white dark:bg-black'
+      }`}
+      onMouseMove={handleMouseMove}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-24">
           <div className="flex items-center">
-            <a href="#" className="text-xl font-bold text-gray-900 dark:text-white hover:scale-105 transition-transform duration-200">
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`text-xl font-bold hover:scale-105 transition-transform duration-200 ${
+                shouldBeTransparent ? 'text-white' : 'text-gray-900 dark:text-white'
+              }`}
+            >
               Elijah Farrell
             </a>
           </div>
@@ -80,8 +123,8 @@ export default function Navigation() {
                   to={item.href}
                   className={`relative font-medium group transition-all duration-300 ${
                     isActive 
-                      ? 'text-gray-900 dark:text-white' 
-                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                      ? (shouldBeTransparent ? 'text-white' : 'text-gray-900 dark:text-white')
+                      : (shouldBeTransparent ? 'text-gray-200 hover:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white')
                   }`}
                 >
                   <span className="relative z-10 px-2 py-1 rounded-md transition-all duration-300">
@@ -95,7 +138,9 @@ export default function Navigation() {
                     />
                   )}
                   {/* Hover effect */}
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 dark:via-neutral-700 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left rounded-md"></span>
+                  <span className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left rounded-md ${
+                    shouldBeTransparent ? 'bg-white/20' : 'bg-gradient-to-r from-transparent via-gray-200 dark:via-neutral-700 to-transparent'
+                  }`}></span>
                   {/* Hover underline */}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-400 dark:bg-gray-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
                 </Link>
@@ -109,7 +154,11 @@ export default function Navigation() {
             <div className="relative">
               <button 
                 onClick={() => setColorPickerOpen(!colorPickerOpen)}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-600 transition-all duration-200 hover:scale-105 hover:shadow-md"
+                className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                  shouldBeTransparent 
+                    ? 'bg-white/20 text-white hover:bg-white/30' 
+                    : 'bg-gray-100 dark:bg-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-600'
+                }`}
               >
                 <svg className="w-5 h-5" style={{ color: currentColor }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm0 2h12v11H4V4zm2 2a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" clipRule="evenodd"></path>
@@ -134,7 +183,11 @@ export default function Navigation() {
             {/* Dark Mode Toggle */}
             <button 
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 transition-all duration-200 hover:scale-105 hover:shadow-md"
+              className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                shouldBeTransparent 
+                  ? 'bg-white/20 text-white hover:bg-white/30' 
+                  : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
+              }`}
             >
               {!darkMode ? (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -150,7 +203,11 @@ export default function Navigation() {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={toggleMobileMenu}
-              className="lg:hidden p-2 rounded-lg bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 transition-all duration-200 hover:scale-105 hover:shadow-md"
+              className={`lg:hidden p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                shouldBeTransparent 
+                  ? 'bg-white/20 text-white hover:bg-white/30' 
+                  : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
+              }`}
             >
               {!mobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +224,11 @@ export default function Navigation() {
         
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden overflow-hidden transition-all duration-300 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
+          <div className={`lg:hidden overflow-hidden transition-all duration-300 border-t ${
+            shouldBeTransparent 
+              ? 'bg-black/80 backdrop-blur-md border-white/20' 
+              : 'bg-white dark:bg-black border-gray-200 dark:border-gray-800'
+          }`}>
             <div className="px-4 py-4 space-y-3">
               {navItems.map((item) => {
                 const isActive = (item.href === '/' && location.pathname === '/') || 
@@ -182,8 +243,8 @@ export default function Navigation() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block w-full text-left font-medium py-2 pl-3 border-l-4 transition-all duration-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-neutral-800 ${
                       isActive 
-                        ? 'text-gray-900 dark:text-white border-l-4' 
-                        : 'text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                        ? (shouldBeTransparent ? 'text-white border-white' : 'text-gray-900 dark:text-white border-l-4') 
+                        : (shouldBeTransparent ? 'text-gray-200 border-transparent hover:border-white/50' : 'text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:border-gray-300 dark:hover:border-gray-600')
                     }`}
                     style={isActive ? { borderLeftColor: currentColor } : {}}
                   >
