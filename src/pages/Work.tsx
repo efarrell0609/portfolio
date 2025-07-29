@@ -49,9 +49,11 @@ export default function Work() {
       location: "Watertown, NY",
       duration: "Aug 2021 – Dec 2021",
       description: [
-        "Provided technical support and troubleshooting for devices and user software."
+        "Performed general duties including facility support and janitorial tasks.",
+        "Occasionally assisted with basic device troubleshooting and user setup when assigned.",
+        "Gained initial exposure to technical support environments and team coordination."
       ],
-      technologies: ["Technical Support", "Troubleshooting", "User Software"]
+      technologies: ["Technical Support", "Troubleshooting", "User Software", "Facility Support"]
     }
   ];
 
