@@ -37,9 +37,7 @@ export default function EducationSection({ currentColor }: EducationSectionProps
   ];
 
   return (
-    <section id="education" className="py-12 px-4 sm:px-6 bg-white dark:bg-black relative">
-      {/* Gradient transition at bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-gray-50 to-transparent dark:from-neutral-800 dark:to-transparent"></div>
+    <section id="education" className="py-12 px-4 sm:px-6 bg-white dark:bg-black">
       
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="education-header">

@@ -11,7 +11,7 @@ export default function Navigation() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isAtTop, setIsAtTop] = useState(true);
   
-  const colors = ['#F59E0B', '#4318D1', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316', '#EC4899', '#3B82F6', '#059669', '#A855F7', '#EA580C'];
+  const colors = ['#F59E0B', '#EF4444', '#3B82F6', '#8B5CF6', '#F97316'];
 
   // Check if we're on the home page
   const isHomePage = location.pathname === '/';
@@ -128,7 +128,7 @@ export default function Navigation() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className={`text-xl font-bold hover:scale-105 transition-transform duration-200 ${
-                shouldBeTransparent ? 'text-white' : 'text-gray-900 dark:text-white'
+                shouldBeTransparent ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
               }`}
             >
               Elijah Farrell
@@ -149,8 +149,8 @@ export default function Navigation() {
                   to={item.href}
                   className={`relative font-medium group transition-all duration-300 ${
                     isActive 
-                      ? (shouldBeTransparent ? 'text-white' : 'text-gray-900 dark:text-white')
-                      : (shouldBeTransparent ? 'text-gray-200 hover:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white')
+                      ? (shouldBeTransparent ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white')
+                      : (shouldBeTransparent ? 'text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white')
                   }`}
                 >
                   <span className="relative z-10 px-2 py-1 rounded-md transition-all duration-300">
@@ -182,7 +182,7 @@ export default function Navigation() {
                 onClick={() => setColorPickerOpen(!colorPickerOpen)}
                 className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                   shouldBeTransparent 
-                    ? 'bg-white/20 text-white hover:bg-white/30' 
+                    ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
                     : 'bg-gray-100 dark:bg-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-600'
                 }`}
               >
@@ -191,8 +191,8 @@ export default function Navigation() {
                 </svg>
               </button>
               {colorPickerOpen && (
-                <div className="absolute right-0 top-12 bg-white dark:bg-neutral-700 rounded-lg shadow-lg border border-gray-200 dark:border-neutral-600 p-3 w-48 animate-in slide-in-from-top-2 duration-200">
-                  <div className="grid grid-cols-4 gap-2">
+                                 <div className="absolute right-0 top-12 bg-white dark:bg-neutral-700 rounded-lg shadow-lg border border-gray-200 dark:border-neutral-600 p-3 w-64 animate-in slide-in-from-top-2 duration-200">
+                   <div className="grid grid-cols-5 gap-2">
                     {colors.map((color) => (
                       <button
                         key={color}
@@ -211,7 +211,7 @@ export default function Navigation() {
               onClick={() => setDarkMode(!darkMode)}
               className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                 shouldBeTransparent 
-                  ? 'bg-white/20 text-white hover:bg-white/30' 
+                  ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
                   : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
               }`}
             >
@@ -231,7 +231,7 @@ export default function Navigation() {
               onClick={toggleMobileMenu}
               className={`lg:hidden p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                 shouldBeTransparent 
-                  ? 'bg-white/20 text-white hover:bg-white/30' 
+                  ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
                   : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
               }`}
             >
