@@ -96,6 +96,16 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
         } as Comment);
       });
       setComments(commentsData);
+      
+      // Auto-scroll to bottom when new comments are added
+      if (commentsData.length > 0 && chatWindowRef.current) {
+        setTimeout(() => {
+          chatWindowRef.current?.scrollTo({
+            top: chatWindowRef.current.scrollHeight,
+            behavior: 'smooth'
+          });
+        }, 100);
+      }
     }, (error) => {
       // Silently handle errors for manual deletions or network issues
       // Only log critical errors that might indicate configuration issues
@@ -106,6 +116,13 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
 
     return () => unsubscribe();
   }, []);
+
+  // Auto-scroll to bottom when comments change
+  useEffect(() => {
+    if (comments.length > 0 && chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [comments]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,6 +165,16 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
       setNewComment('');
       setShowPreview(false);
       setPreviewData({ name: '', email: '', content: '' });
+      
+      // Auto-scroll to bottom after posting
+      setTimeout(() => {
+        if (chatWindowRef.current) {
+          chatWindowRef.current.scrollTo({
+            top: chatWindowRef.current.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 200);
     } catch (error) {
       console.error('Error posting comment:', error);
       alert('Failed to post comment. Please try again.');
