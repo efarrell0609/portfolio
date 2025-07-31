@@ -42,31 +42,40 @@ Set up EmailJS for email notifications when someone comments on your React portf
 npm install @emailjs/browser
 ```
 
-### 6. Update Code
-Add to your `src/main.tsx` or create a separate config file:
+### 6. Create Environment File
+Create a `.env` file in your project root:
 
-```typescript
-import emailjs from '@emailjs/browser';
-
-// Initialize EmailJS
-emailjs.init("your-public-key");
+```env
+# EmailJS Configuration
+VITE_EMAILJS_SERVICE_ID=your-service-id
+VITE_EMAILJS_TEMPLATE_ID=your-template-id
+VITE_EMAILJS_PUBLIC_KEY=your-public-key
 ```
 
-Update your contact component (`src/components/Contact/ContactSection.tsx`):
+### 7. Update Code
+The contact component (`src/components/Index/Contact/ContactSection.tsx`) already uses environment variables:
 
 ```typescript
 import emailjs from '@emailjs/browser';
 
-const serviceId = 'your-service-id';
-const templateId = 'your-template-id';
-const publicKey = 'your-public-key';
+// EmailJS credentials from environment variables
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-const sendEmail = async (formData: any) => {
+const sendEmailNotification = async (comment: any) => {
+  const templateParams = {
+    to_email: 'your-email@gmail.com',
+    from_name: comment.name || 'Anonymous',
+    from_email: comment.email || 'N/A',
+    message: comment.content,
+    timestamp: new Date().toLocaleString()
+  };
+
   try {
-    await emailjs.send(serviceId, templateId, formData, publicKey);
-    console.log('Email sent successfully!');
+    await emailjs.send(serviceId, templateId, templateParams, publicKey);
   } catch (error) {
-    console.error('Email send failed:', error);
+    console.error('Email notification failed:', error);
   }
 };
 ```
@@ -87,17 +96,15 @@ const sendEmail = async (formData: any) => {
 - **Not sending**: Check browser console for errors
 - **TypeScript errors**: Make sure types are properly imported
 
-## 🔧 Environment Variables (Optional)
-Create `.env` file in your project root:
-```env
-VITE_EMAILJS_SERVICE_ID=your-service-id
-VITE_EMAILJS_TEMPLATE_ID=your-template-id
-VITE_EMAILJS_PUBLIC_KEY=your-public-key
-```
+## 🔧 Environment Variables
+The project now uses environment variables for EmailJS configuration. This is more secure and follows best practices.
 
-Then use in your component:
-```typescript
-const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-```
+### Security Benefits:
+- Keeps sensitive credentials out of your code
+- Prevents accidental exposure in version control
+- Makes it easier to manage different environments
+
+### Important Notes:
+- The `.env` file should be added to `.gitignore` to prevent committing secrets
+- For production deployment, set these variables in your hosting platform
+- Never commit the actual `.env` file to version control

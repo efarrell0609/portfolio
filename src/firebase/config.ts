@@ -1,15 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-// Your Firebase configuration
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyC4NVfs7CcrPGpCw65g8NasE_qFu8KUse0",
-  authDomain: "portfolio-a4434.firebaseapp.com",
-  projectId: "portfolio-a4434",
-  storageBucket: "portfolio-a4434.firebasestorage.app",
-  messagingSenderId: "907871113255",
-  appId: "1:907871113255:web:d5af0f5998348f5f7dbe02",
-  measurementId: "G-6W3RQEM5ZZ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

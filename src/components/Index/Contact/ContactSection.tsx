@@ -63,10 +63,10 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
       })
     };
 
-    // EmailJS credentials - replace with your actual credentials
-    const serviceId = 'service_o18qk9p';
-    const templateId = 'template_lzcvz8s';
-    const publicKey = 'j9dA8RYL2gVS_Isls';
+    // EmailJS credentials from environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, publicKey);

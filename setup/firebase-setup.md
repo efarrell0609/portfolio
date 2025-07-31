@@ -18,32 +18,48 @@ Set up Firebase Firestore for the comment system in your React portfolio.
 2. Click "Create database"
 3. Start in test mode
 
-### 4. Update Code
-Replace the Firebase config in `src/firebase/config.ts`:
+### 4. Create Environment File
+Add Firebase configuration to your `.env` file:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your-api-key
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project
+VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+VITE_FIREBASE_APP_ID=1:123456789:web:abc123
+VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+### 5. Update Code
+The Firebase config in `src/firebase/config.ts` already uses environment variables:
 
 ```typescript
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 ```
 
-### 5. Install Firebase SDK
+### 6. Install Firebase SDK
 ```bash
 npm install firebase
 ```
 
-### 6. Test
+### 7. Test
 1. Start development server: `npm run dev`
 2. Open your website
 3. Leave a comment
