@@ -68,10 +68,18 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+    // Skip email if template ID is invalid
+    if (!templateId || templateId === 'template_lzcvz8s') {
+      console.warn('⚠️ EmailJS template ID is invalid or missing. Skipping email notification.');
+      return;
+    }
+
     try {
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      console.log('✅ Email notification sent successfully');
     } catch (error) {
-      console.error('Email notification failed:', error);
+      console.error('❌ Email notification failed:', error);
+      // Don't throw error - comments should still be saved even if email fails
     }
   };
 
