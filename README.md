@@ -34,4 +34,4 @@ A modern, responsive portfolio built with React and TypeScript featuring dynamic
 
 - **Email**: elijah5003@gmail.com
 - **GitHub**: elijah-farrell
-- **Location**: Watertown, NY# Trigger deployment
+- **Location**: Watertown, NY
