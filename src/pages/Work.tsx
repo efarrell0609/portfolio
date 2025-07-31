@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
 import Navigation from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer/Footer";
+import HeroSection from "@/components/Work/HeroSection";
 
 interface WorkExperience {
   title: string;
@@ -76,23 +77,19 @@ export default function Work() {
   return (
     <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300">
       <Navigation />
-      <main className="pt-16">
-        {/* Header section */}
-        <div className="py-20 bg-gray-50 dark:bg-neutral-800">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="text-center">
-              <h1 className="text-5xl sm:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
-                Work Experience
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                My professional journey and featured projects
-              </p>
-            </div>
-          </div>
-        </div>
+      <main>
+        {/* Hero Section */}
+        <HeroSection 
+          title="My Work"
+          subtitle="Professional experience and featured projects"
+          highlightWord="Work"
+          scrollToId="work"
+        />
+        
+        {/* Work content section */}
 
         {/* Work content section */}
-        <section id="work" className="py-20 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-800">
+        <section id="work" className="py-20 px-4 sm:px-6 bg-white dark:bg-neutral-900">
           <div className="max-w-6xl mx-auto">
             {/* Work Experience */}
             <div className="mb-20">

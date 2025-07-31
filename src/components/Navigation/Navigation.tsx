@@ -252,7 +252,7 @@ export default function Navigation() {
         {mobileMenuOpen && (
           <div className={`lg:hidden overflow-hidden transition-all duration-300 border-t ${
             shouldBeTransparent 
-              ? 'bg-black/80 backdrop-blur-md border-white/20' 
+              ? 'bg-white/80 dark:bg-black/80 backdrop-blur-md border-white/20 dark:border-white/20' 
               : 'bg-white dark:bg-black border-gray-200 dark:border-gray-800'
           }`}>
             <div className="px-4 py-4 space-y-3">
@@ -269,8 +269,8 @@ export default function Navigation() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block w-full text-left font-medium py-2 pl-3 border-l-4 transition-all duration-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-neutral-800 ${
                       isActive 
-                        ? (shouldBeTransparent ? 'text-white border-white' : 'text-gray-900 dark:text-white border-l-4') 
-                        : (shouldBeTransparent ? 'text-gray-200 border-transparent hover:border-white/50' : 'text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:border-gray-300 dark:hover:border-gray-600')
+                        ? (shouldBeTransparent ? 'text-gray-900 dark:text-white border-white dark:border-white' : 'text-gray-900 dark:text-white border-l-4') 
+                        : (shouldBeTransparent ? 'text-gray-700 dark:text-gray-200 border-transparent hover:border-gray-400 dark:hover:border-white/50' : 'text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:border-gray-300 dark:hover:border-gray-600')
                     }`}
                     style={isActive ? { borderLeftColor: currentColor } : {}}
                   >

@@ -61,9 +61,9 @@ export default function SoftSkills({ currentColor }: SoftSkillsProps) {
         </h3>
         <p className="text-gray-600 dark:text-gray-300">Core competencies that drive success</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="flex flex-wrap justify-center gap-6">
         {softSkills.map((skill) => (
-          <HoverCard key={skill.name} scale={1.05} shadowIntensity={15} className="group bg-white dark:bg-neutral-700 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-neutral-600">
+          <HoverCard key={skill.name} scale={1.05} shadowIntensity={15} className="group bg-white dark:bg-neutral-700 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-neutral-600 w-full max-w-[300px] md:w-[calc(50%-12px)] lg:w-[calc(20%-24px)]">
             <div className="text-center">
               <div 
                 className="w-12 h-12 rounded-lg mx-auto mb-4 flex items-center justify-center text-white"

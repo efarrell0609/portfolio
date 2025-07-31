@@ -38,38 +38,19 @@ export default function TechnologySkills({ currentColor }: TechnologySkillsProps
         </h3>
         <p className="text-gray-600 dark:text-gray-300">Tools and platforms I use to build solutions</p>
       </div>
-      <div className="space-y-4">
-        {/* First two rows - full 5 columns */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {technologies.slice(0, 10).map((tech) => (
-            <HoverCard 
-              key={tech.name} 
-              scale={1.05} 
-              shadowIntensity={10} 
-              className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600 w-full max-w-xs"
-            >
-              <div className="text-center">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{tech.name}</span>
-              </div>
-            </HoverCard>
-          ))}
-        </div>
-        
-        {/* Bottom row - centered flexbox */}
-        <div className="flex justify-center gap-4">
-          {technologies.slice(10).map((tech) => (
-            <HoverCard 
-              key={tech.name} 
-              scale={1.05} 
-              shadowIntensity={10} 
-              className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600 w-full max-w-xs"
-            >
-              <div className="text-center">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{tech.name}</span>
-              </div>
-            </HoverCard>
-          ))}
-        </div>
+      <div className="flex flex-wrap justify-center gap-4">
+        {technologies.map((tech) => (
+          <HoverCard 
+            key={tech.name} 
+            scale={1.05} 
+            shadowIntensity={10} 
+            className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600 w-32 md:w-36 lg:w-40"
+          >
+            <div className="text-center">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{tech.name}</span>
+            </div>
+          </HoverCard>
+        ))}
       </div>
     </div>
   );
