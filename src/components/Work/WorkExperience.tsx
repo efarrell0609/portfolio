@@ -106,7 +106,7 @@ const ExperienceCard: React.FC<TExperience & { index: number }> = ({ date, iconB
 // Main Experience Component
 const WorkExperience: React.FC = () => {
   return (
-    <section className="py-20 px-4 sm:px-6 bg-white dark:bg-neutral-900">
+    <section id="work" className="py-20 px-4 sm:px-6 bg-white dark:bg-neutral-900">
       <div className="max-w-6xl mx-auto">
         <div className="mt-20 flex flex-col">
           <VerticalTimeline>

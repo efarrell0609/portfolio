@@ -3,7 +3,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 import Navigation from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer/Footer";
 import HeroSection from "@/components/Work/HeroSection";
-import WorkExperienceTailwind from "@/components/Work/WorkExperience";
+import WorkExperience from "@/components/Work/WorkExperience";
 
 export default function Work() {
   const { darkMode, currentColor } = useSettings();
@@ -26,7 +26,7 @@ export default function Work() {
           scrollToId="work"
         />
         
-        <WorkExperienceTailwind />
+        <WorkExperience />
       </main>
       <Footer currentColor={currentColor} />
     </div>

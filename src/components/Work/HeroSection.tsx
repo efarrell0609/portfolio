@@ -197,7 +197,15 @@ const HeroSection: FC<HeroSectionProps> = ({
          
          {scrollToId && (
             <div className="absolute bottom-8 flex w-full items-center justify-center">
-               <a href={`#${scrollToId}`}>
+               <button 
+                  onClick={() => {
+                     const element = document.getElementById(scrollToId);
+                     if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                     }
+                  }}
+                  className="cursor-pointer"
+               >
                   <div className="h-[64px] w-[35px] rounded-3xl border-4 flex justify-center items-start p-2 border-gray-300 dark:border-gray-600">
                      <motion.div
                         animate={{ y: [0, 24, 0] }}
@@ -210,7 +218,7 @@ const HeroSection: FC<HeroSectionProps> = ({
                         style={{ backgroundColor: currentColor }}
                      />
                   </div>
-               </a>
+               </button>
             </div>
          )}
       </section>

@@ -44,7 +44,7 @@ body {
 
 /* Vertical Timeline Line Colors */
 .vertical-timeline::before {
-  background: #000000 !important;
+  background: #E6DEDD !important;
 }
 
 .dark .vertical-timeline::before {
