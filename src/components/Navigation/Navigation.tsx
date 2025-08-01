@@ -32,6 +32,13 @@ export default function Navigation() {
         return;
       }
       
+      // Don't hide navbar when mobile menu is open
+      if (mobileMenuOpen) {
+        setIsNavbarVisible(true);
+        setLastScrollY(currentScrollY);
+        return;
+      }
+      
       // Hide navbar when scrolling down, show when scrolling up
       if (currentScrollY > lastScrollY && isNavbarVisible) {
         setIsNavbarVisible(false);
