@@ -33,12 +33,25 @@ body {
   transform: translateZ(0);
 }
 
-/* Violet gradient for hero sections */
-.violet-gradient {
-  background: #804dee;
-  background: linear-gradient(-90deg, #804dee 0%, rgba(60, 51, 80, 0) 100%);
-  background: -webkit-linear-gradient(-90deg, #804dee 0%, rgba(60, 51, 80, 0) 100%);
+/* Vertical Timeline Date Colors */
+.vertical-timeline-element-date {
+  color: #000000 !important;
 }
+
+.dark .vertical-timeline-element-date {
+  color: #ffffff !important;
+}
+
+/* Vertical Timeline Line Colors */
+.vertical-timeline::before {
+  background: #000000 !important;
+}
+
+.dark .vertical-timeline::before {
+  background: #ffffff !important;
+}
+
+
 
 @keyframes mulShdSpin {
   0%,

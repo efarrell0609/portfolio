@@ -6,7 +6,6 @@ import AboutSection from "@/components/Index/About/AboutSection";
 import EducationSection from "@/components/Index/Education/EducationSection";
 import SkillsSection from "@/components/Index/Skills/SkillsSection";
 import Footer from "@/components/Footer/Footer";
-import FaultyTerminal from "@/components/Index/Hero/FaultyTerminal";
 
 export default function Index() {
   const { darkMode, currentColor } = useSettings();

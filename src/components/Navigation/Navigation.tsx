@@ -11,7 +11,7 @@ export default function Navigation() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isAtTop, setIsAtTop] = useState(true);
   
-  const colors = ['#F59E0B', '#EF4444', '#3B82F6', '#8B5CF6', '#F97316'];
+  const colors = ['#F59E0B', '#EF4444', '#3B82F6', '#8B5CF6'];
 
   // Check if we're on the home page
   const isHomePage = location.pathname === '/';
@@ -219,16 +219,33 @@ export default function Navigation() {
                 </svg>
               </button>
               {colorPickerOpen && (
-                                 <div className="absolute right-0 top-12 bg-white dark:bg-neutral-700 rounded-lg shadow-lg border border-gray-200 dark:border-neutral-600 p-3 w-64 animate-in slide-in-from-top-2 duration-200">
-                   <div className="grid grid-cols-5 gap-2">
-                    {colors.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => setColor(color)}
-                        className="w-8 h-8 rounded-lg border-2 border-gray-200 dark:border-neutral-500 hover:scale-110 transition-all duration-200 hover:shadow-md"
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
+                <div className="absolute right-0 top-12 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-gray-200 dark:border-neutral-600 p-4 w-48 animate-in slide-in-from-top-2 duration-200 z-50">
+                  <div className="space-y-3">
+                    <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      Theme Color
+                    </div>
+                    <div className="grid grid-cols-4 gap-3">
+                      {colors.map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => setColor(color)}
+                          className={`w-10 h-10 rounded-lg border-2 transition-all duration-200 hover:scale-110 hover:shadow-lg ${
+                            currentColor === color 
+                              ? 'border-gray-400 dark:border-gray-300 shadow-md' 
+                              : 'border-gray-200 dark:border-neutral-500 hover:border-gray-300 dark:hover:border-neutral-400'
+                          }`}
+                          style={{ backgroundColor: color }}
+                        >
+                          {currentColor === color && (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <svg className="w-5 h-5 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
