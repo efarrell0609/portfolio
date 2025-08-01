@@ -134,11 +134,26 @@ export default function Navigation() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-xl font-bold hover:scale-105 transition-transform duration-200 ${
-                shouldBeTransparent ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
-              }`}
+              className="hover:scale-105 transition-transform duration-200 flex items-center justify-center group relative"
             >
-              Elijah Farrell
+              <div className="relative">
+                <img 
+                  src={darkMode ? "/favicon_dark.png" : "/favicon_light.png"} 
+                  alt="Elijah Farrell - Click to scroll to top" 
+                  className="w-8 h-8 rounded-full cursor-pointer"
+                />
+                {/* Mobile indicator - always visible on small screens */}
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center lg:hidden">
+                  <svg className="w-2 h-2 text-white dark:text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              {/* Desktop tooltip - only on large screens */}
+              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap hidden lg:block">
+                Scroll to top
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
+              </div>
             </a>
           </div>
           
