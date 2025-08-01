@@ -59,7 +59,7 @@ export default function EducationSection({ currentColor }: EducationSectionProps
               <div className="flex flex-col items-center text-center gap-6">
                 <div className="flex-shrink-0">
                   <img 
-                    src="/Education/suny-poly-logo.jpg"
+                    src="/src/assets/education/suny-poly-logo.jpg"
                     alt="SUNY Polytechnic Institute Logo"
                     className="w-32 h-32 rounded-xl object-cover"
                   />
@@ -85,7 +85,7 @@ export default function EducationSection({ currentColor }: EducationSectionProps
               <div className="flex flex-col items-center text-center gap-6">
                 <div className="flex-shrink-0">
                   <img 
-                    src="/Education/jcc-logo.png"
+                    src="/src/assets/education/jcc-logo.png"
                     alt="Jefferson Community College Logo"
                     className="w-32 h-32 rounded-xl object-cover"
                   />

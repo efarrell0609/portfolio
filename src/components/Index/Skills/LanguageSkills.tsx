@@ -10,44 +10,44 @@ export default function LanguageSkills({ currentColor }: LanguageSkillsProps) {
     { 
       name: 'Python', 
       level: 90, 
-      image: '/Technologies/python.jpeg'
+      image: '/src/assets/technologies/python.jpeg'
     },
     { 
       name: 'Java', 
       level: 85, 
-      image: '/Technologies/java.png'
+      image: '/src/assets/technologies/java.png'
     },
     { 
       name: 'JavaScript', 
       level: 80, 
-      image: '/Technologies/javascript.png'
+      image: '/src/assets/technologies/javascript.png'
     },
     { 
       name: 'C++', 
       level: 75, 
-      image: '/Technologies/cpp.png'
+      image: '/src/assets/technologies/cpp.png'
     },
     { 
       name: 'C', 
       level: 70, 
-      image: '/Technologies/c.png'
+      image: '/src/assets/technologies/c.png'
     },
     { 
       name: 'TypeScript', 
       level: 85, 
-      image: '/Technologies/typescript.png'
+      image: '/src/assets/technologies/typescript.png'
     },
     
     // Second row - HTML, CSS
     { 
       name: 'HTML', 
       level: 85, 
-      image: '/Technologies/html.png'
+      image: '/src/assets/technologies/html.png'
     },
     { 
       name: 'CSS', 
       level: 80, 
-      image: '/Technologies/css.svg'
+      image: '/src/assets/technologies/css.svg'
     }
   ];
 
