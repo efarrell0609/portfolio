@@ -1,0 +1,11 @@
+Model Information:
+* title:	laptop with code
+* source:	https://sketchfab.com/3d-models/laptop-with-code-0a06208ac22b45c4814dea46b6fc6b0a
+* author:	zam205 (https://sketchfab.com/zam205)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "laptop with code" (https://sketchfab.com/3d-models/laptop-with-code-0a06208ac22b45c4814dea46b6fc6b0a) by zam205 (https://sketchfab.com/zam205) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

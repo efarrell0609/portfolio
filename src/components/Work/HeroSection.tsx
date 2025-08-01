@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Preload, useGLTF, Html, useProgress } from '@react-three/drei';
-import { type FC, useEffect, useState, Suspense } from 'react';
+import { type FC, useEffect, useState, Suspense, useRef } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
+import * as THREE from 'three';
 
 // Styles object
 const styles = {
@@ -39,9 +40,44 @@ const CanvasLoader = () => {
    );
 };
 
-// 3D Computer Component
+// 3D Laptop Component
 const Computers: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
-   const computer = useGLTF('/desktop_pc/scene.gltf');
+   const laptop = useGLTF('/laptop_with_code/scene.gltf');
+   const { animations } = laptop;
+   const mixer = useRef<THREE.AnimationMixer | null>(null);
+   const actionRef = useRef<THREE.AnimationAction | null>(null);
+   const animationStarted = useRef(false);
+
+   useEffect(() => {
+      if (animations && animations.length > 0 && !animationStarted.current) {
+         console.log('Found animations:', animations.length);
+         console.log('Animation names:', animations.map(anim => anim.name));
+         
+         mixer.current = new THREE.AnimationMixer(laptop.scene);
+         
+         // Try to find the specific animation by name
+         const animationClip = animations.find(anim => anim.name === 'Animation') || animations[0];
+         console.log('Using animation:', animationClip.name);
+         console.log('Animation duration:', animationClip.duration);
+         
+         const action = mixer.current.clipAction(animationClip);
+         actionRef.current = action;
+         
+                   // Force the model to start in closed state and play immediately
+          action.time = 0;
+          action.setLoop(THREE.LoopOnce, 1);
+          action.clampWhenFinished = true;
+          action.play();
+          animationStarted.current = true;
+          console.log('Animation started immediately');
+      }
+   }, [animations, laptop.scene]);
+
+   useFrame((state, delta) => {
+      if (mixer.current) {
+         mixer.current.update(delta);
+      }
+   });
 
    return (
       <mesh>
@@ -55,12 +91,12 @@ const Computers: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
             castShadow
             shadow-mapSize={1024}
          />
-                   <primitive
-             object={computer.scene}
-             scale={isMobile?0.7:0.75}
-             position={isMobile?[0, -2.5, -2.2]:[0, -2.75, -1.5]}
-             rotation={[-0.01, -0.2, -0.1]}
-          />
+         <primitive
+            object={laptop.scene}
+            scale={isMobile ? 0.6 : 0.8}
+            position={isMobile ? [0, -2, 0] : [0, -1.5, 0]}
+            rotation={[0, 0, 0]}
+         />
       </mesh>
    );
 };
@@ -82,13 +118,13 @@ const ComputersCanvas = () => {
       return (()=>mediaQuery.removeEventListener('change', handleMediaQueryChange));
    }, []);
 
-   return (
-      <Canvas
-         frameloop="demand"
-         shadows
-         camera={{ position: [20, 3, 5], fov: 25 }}
-         gl={{ preserveDrawingBuffer: true }}
-      >
+               return (
+        <Canvas
+           frameloop="always"
+           shadows
+           camera={{ position: [0, 0, 8], fov: 35 }}
+           gl={{ preserveDrawingBuffer: true }}
+        >
          <Suspense fallback={<CanvasLoader />}>
             <OrbitControls
                enableZoom={false}

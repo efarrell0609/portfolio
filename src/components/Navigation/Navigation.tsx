@@ -126,7 +126,8 @@ export default function Navigation() {
       onMouseMove={handleMouseMove}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center h-24">
+        <div className="flex items-center justify-between h-24">
+          {/* Logo */}
           <div className="flex items-center">
             <a 
               href="#" 
@@ -157,8 +158,8 @@ export default function Navigation() {
             </a>
           </div>
           
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
             {navItems.map((item) => {
               const isActive = (item.href === '/' && location.pathname === '/') || 
                               (item.href === '/work' && location.pathname === '/work') ||
@@ -205,8 +206,13 @@ export default function Navigation() {
                 className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                   shouldBeTransparent 
                     ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
-                    : 'bg-gray-100 dark:bg-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-600'
+                    : 'bg-gray-100 hover:bg-gray-200'
                 }`}
+                style={{
+                  backgroundColor: shouldBeTransparent 
+                    ? darkMode ? '#0B0B0B' : undefined
+                    : darkMode ? '#0B0B0B' : undefined
+                }}
               >
                 <svg className="w-5 h-5" style={{ color: currentColor }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm0 2h12v11H4V4zm2 2a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 3a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" clipRule="evenodd"></path>
@@ -234,8 +240,11 @@ export default function Navigation() {
               className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                 shouldBeTransparent 
                   ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
-                  : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
+                  : 'bg-gray-100 text-gray-600 dark:text-white hover:bg-gray-200'
               }`}
+              style={{
+                backgroundColor: darkMode ? '#0B0B0B' : undefined
+              }}
             >
               {!darkMode ? (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
