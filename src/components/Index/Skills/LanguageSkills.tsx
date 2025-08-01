@@ -1,4 +1,12 @@
 import { HoverCard } from "@/components/ScrollReveal";
+import pythonLogo from '@/assets/technologies/python.jpeg';
+import javaLogo from '@/assets/technologies/java.png';
+import javascriptLogo from '@/assets/technologies/javascript.png';
+import cppLogo from '@/assets/technologies/cpp.png';
+import cLogo from '@/assets/technologies/c.png';
+import typescriptLogo from '@/assets/technologies/typescript.png';
+import htmlLogo from '@/assets/technologies/html.png';
+import cssLogo from '@/assets/technologies/css.svg';
 
 interface LanguageSkillsProps {
   currentColor: string;
@@ -10,44 +18,44 @@ export default function LanguageSkills({ currentColor }: LanguageSkillsProps) {
     { 
       name: 'Python', 
       level: 90, 
-      image: '/src/assets/technologies/python.jpeg'
+      image: pythonLogo
     },
     { 
       name: 'Java', 
       level: 85, 
-      image: '/src/assets/technologies/java.png'
+      image: javaLogo
     },
     { 
       name: 'JavaScript', 
       level: 80, 
-      image: '/src/assets/technologies/javascript.png'
+      image: javascriptLogo
     },
     { 
       name: 'C++', 
       level: 75, 
-      image: '/src/assets/technologies/cpp.png'
+      image: cppLogo
     },
     { 
       name: 'C', 
       level: 70, 
-      image: '/src/assets/technologies/c.png'
+      image: cLogo
     },
     { 
       name: 'TypeScript', 
       level: 85, 
-      image: '/src/assets/technologies/typescript.png'
+      image: typescriptLogo
     },
     
     // Second row - HTML, CSS
     { 
       name: 'HTML', 
       level: 85, 
-      image: '/src/assets/technologies/html.png'
+      image: htmlLogo
     },
     { 
       name: 'CSS', 
       level: 80, 
-      image: '/src/assets/technologies/css.svg'
+      image: cssLogo
     }
   ];
 
