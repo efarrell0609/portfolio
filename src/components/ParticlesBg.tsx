@@ -53,7 +53,6 @@ const ParticlesBg = () => {
   }, []);
 
   const particlesLoaded = useCallback(async (container: Container | undefined) => {
-    console.log("Particles loaded", container);
   }, []);
 
   return (

@@ -51,15 +51,10 @@ const Computers: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
 
    useEffect(() => {
       if (animations && animations.length > 0 && !animationStarted.current) {
-         console.log('Found animations:', animations.length);
-         console.log('Animation names:', animations.map(anim => anim.name));
-         
          mixer.current = new THREE.AnimationMixer(laptop.scene);
          
          // Try to find the specific animation by name
          const animationClip = animations.find(anim => anim.name === 'Animation') || animations[0];
-         console.log('Using animation:', animationClip.name);
-         console.log('Animation duration:', animationClip.duration);
          
          const action = mixer.current.clipAction(animationClip);
          actionRef.current = action;
@@ -70,7 +65,6 @@ const Computers: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
           action.clampWhenFinished = true;
           action.play();
           animationStarted.current = true;
-          console.log('Animation started immediately');
       }
    }, [animations, laptop.scene]);
 
