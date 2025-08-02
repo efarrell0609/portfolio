@@ -15,6 +15,15 @@ const ScrollRestoration = () => {
   const restoredRef = useRef(false);
   const previousPathRef = useRef(pathname);
 
+  // Helper function to get the actual path from GitHub Pages redirect format
+  const getActualPath = (currentPath: string) => {
+    // Check if this is a GitHub Pages redirect format (/?/path)
+    if (currentPath.startsWith('/?/')) {
+      return '/' + currentPath.slice(3);
+    }
+    return currentPath;
+  };
+
   useEffect(() => {
     // Reset restored flag on pathname change
     restoredRef.current = false;
@@ -23,11 +32,16 @@ const ScrollRestoration = () => {
     const isNavigation = previousPathRef.current !== pathname;
     previousPathRef.current = pathname;
     
+    // Get the actual path (handle GitHub Pages redirect format)
+    const actualPath = getActualPath(pathname);
+    
     // Wait for page to fully load before restoring scroll
     const restoreScroll = () => {
       if (restoredRef.current) return; // Only restore once
       
-      const savedScroll = sessionStorage.getItem(`scroll-${pathname}`);
+      // Try both the current pathname and the actual path for saved scroll position
+      const savedScroll = sessionStorage.getItem(`scroll-${pathname}`) || 
+                         sessionStorage.getItem(`scroll-${actualPath}`);
       
       if (savedScroll && !isNavigation) {
         // Only restore scroll on refresh, not navigation
@@ -57,6 +71,9 @@ const ScrollRestoration = () => {
   }, [pathname]);
 
   useEffect(() => {
+    // Get the actual path (handle GitHub Pages redirect format)
+    const actualPath = getActualPath(pathname);
+    
     // Save scroll position on scroll (debounced)
     let timeoutId: NodeJS.Timeout;
     const handleScroll = () => {
@@ -64,7 +81,9 @@ const ScrollRestoration = () => {
       timeoutId = setTimeout(() => {
         const scrollY = window.scrollY;
         if (scrollY > 0) {
+          // Save to both the current pathname and actual path
           sessionStorage.setItem(`scroll-${pathname}`, scrollY.toString());
+          sessionStorage.setItem(`scroll-${actualPath}`, scrollY.toString());
         }
       }, 150);
     };
@@ -73,7 +92,9 @@ const ScrollRestoration = () => {
     const handleBeforeUnload = () => {
       const scrollY = window.scrollY;
       if (scrollY > 0) {
+        // Save to both the current pathname and actual path
         sessionStorage.setItem(`scroll-${pathname}`, scrollY.toString());
+        sessionStorage.setItem(`scroll-${actualPath}`, scrollY.toString());
       }
     };
 
@@ -82,7 +103,9 @@ const ScrollRestoration = () => {
       if (document.visibilityState === 'hidden') {
         const scrollY = window.scrollY;
         if (scrollY > 0) {
+          // Save to both the current pathname and actual path
           sessionStorage.setItem(`scroll-${pathname}`, scrollY.toString());
+          sessionStorage.setItem(`scroll-${actualPath}`, scrollY.toString());
         }
       }
     };
