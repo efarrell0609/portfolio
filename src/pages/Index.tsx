@@ -28,10 +28,6 @@ export default function Index() {
     }
   }, [darkMode]);
 
-  const scrollToSection = (section: string) => {
-    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-black">
       <Navigation />
@@ -41,7 +37,6 @@ export default function Index() {
           darkMode={darkMode}
           currentColor={currentColor}
           windowWidth={windowWidth}
-          scrollToSection={scrollToSection}
         />
         
         <AboutSection currentColor={currentColor} />

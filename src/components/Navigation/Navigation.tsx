@@ -59,23 +59,10 @@ export default function Navigation() {
 
   // Separate effect to handle location changes and check scroll position
   useEffect(() => {
-    // Reset scroll position to top when navigating to a new page
-    // Use setTimeout to ensure the navigation is complete
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
-    
-    // Also force scroll to top after a short delay to handle any browser scroll restoration
-    const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
-    
-    // Reset scroll state
+    // Reset scroll state on location change
     setLastScrollY(0);
     setIsAtTop(true);
     setIsNavbarVisible(true);
-    
-    return () => clearTimeout(timeoutId);
   }, [location.pathname]);
 
   const toggleMobileMenu = () => {

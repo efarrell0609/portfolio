@@ -1,17 +1,13 @@
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
-import { useSettings } from "@/contexts/SettingsContext";
 import FaultyTerminal from "./FaultyTerminal";
 
 interface HeroSectionProps {
   darkMode: boolean;
   currentColor: string;
   windowWidth: number;
-  scrollToSection: (section: string) => void;
 }
 
-export default function HeroSection({ darkMode, currentColor, windowWidth, scrollToSection }: HeroSectionProps) {
-  const { clearAnimationCache } = useSettings();
-  
+export default function HeroSection({ darkMode, currentColor, windowWidth }: HeroSectionProps) {
   const nameStyle = {
     color: currentColor,
     whiteSpace: windowWidth < 301 ? 'normal' : 'nowrap' as const
