@@ -4,6 +4,7 @@ import { OrbitControls, Preload, useGLTF, Html, useProgress } from '@react-three
 import { type FC, useEffect, useState, Suspense, useRef } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 import * as THREE from 'three';
+import ParticlesBg from '@/components/ParticlesBg';
 
 // Styles object
 const styles = {
@@ -152,7 +153,7 @@ const HeroSection: FC<HeroSectionProps> = ({
    title, 
    subtitle, 
    highlightWord, 
-   backgroundClass = "bg-gray-50 dark:bg-neutral-800",
+   backgroundClass = "bg-transparent",
    scrollToId,
    show3DModel = true
 }) => {
@@ -160,6 +161,7 @@ const HeroSection: FC<HeroSectionProps> = ({
    
    return (
       <section className={`relative w-full h-screen mx-auto ${backgroundClass}`}>
+         <ParticlesBg />
          <div className={`${styles.paddingX} absolute inset-0 md:top-[140px] top-[180px] max-w-7xl mx-auto flex flex-row items-start gap-5 pb-1`}>
             <div className="flex flex-col justify-center items-center mt-5 mb-8">
                <div 
@@ -187,7 +189,7 @@ const HeroSection: FC<HeroSectionProps> = ({
                       </span>
                    ))}
                 </h1>
-                <p className={`${styles.heroSubText} mt-2 text-gray-600 dark:text-gray-300`}>
+                <p className={`${styles.heroSubText} mt-2 text-black dark:text-gray-300`}>
                    {subtitle}
                 </p>
              </div>
@@ -206,7 +208,7 @@ const HeroSection: FC<HeroSectionProps> = ({
                   }}
                   className="cursor-pointer"
                >
-                  <div className="h-[64px] w-[35px] rounded-3xl border-4 flex justify-center items-start p-2 border-gray-300 dark:border-gray-600">
+                  <div className="h-[64px] w-[35px] rounded-3xl border-4 flex justify-center items-start p-2 border-black dark:border-white">
                      <motion.div
                         animate={{ y: [0, 24, 0] }}
                         transition={{
