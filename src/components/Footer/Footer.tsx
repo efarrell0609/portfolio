@@ -1,10 +1,20 @@
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
+import { useNavigate } from "react-router-dom";
 
 interface FooterProps {
   currentColor: string;
 }
 
 export default function Footer({ currentColor }: FooterProps) {
+  const navigate = useNavigate();
+
+  const handleQuickLink = (path: string) => {
+    navigate(path);
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
   return (
     <footer className="bg-white dark:bg-black text-gray-900 dark:text-white py-16 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
@@ -82,16 +92,16 @@ export default function Footer({ currentColor }: FooterProps) {
           <div>
             <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
             <div className="flex flex-wrap gap-6">
-              <a href="#hero" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium">
+              <a onClick={() => handleQuickLink('/')} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium cursor-pointer">
                 Home
               </a>
-              <a href="#work" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium">
+              <a onClick={() => handleQuickLink('/work')} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium cursor-pointer">
                 Work
               </a>
-              <a href="#services" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium">
+              <a onClick={() => handleQuickLink('/services')} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium cursor-pointer">
                 Services
               </a>
-              <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium">
+              <a onClick={() => handleQuickLink('/contact')} className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium cursor-pointer">
                 Contact
               </a>
             </div>

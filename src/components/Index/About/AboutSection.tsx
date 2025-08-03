@@ -1,23 +1,39 @@
 import ProfileCard from "./ProfileCard";
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
+import { useRef, useEffect, useState } from "react";
 
 interface AboutSectionProps {
   currentColor: string;
 }
 
 export default function AboutSection({ currentColor }: AboutSectionProps) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [underlineWidth, setUnderlineWidth] = useState(0);
+
+  useEffect(() => {
+    if (titleRef.current) {
+      setUnderlineWidth(titleRef.current.offsetWidth);
+    }
+  }, []);
+
   return (
-    <section id="about" className="pt-12 pb-32 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-800">
+    <section id="about" className="pt-12 pb-32 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-900">
       
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="about-header">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="mb-16">
+            <h2 
+              ref={titleRef}
+              className="text-6xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+            >
               About Me
             </h2>
             <div 
-              className="w-20 h-1 mx-auto rounded-full"
-              style={{ backgroundColor: currentColor }}
+              className="h-1.5 rounded-full"
+              style={{ 
+                backgroundColor: currentColor,
+                width: `${underlineWidth}px`
+              }}
             />
           </div>
         </FadeInOnScroll>

@@ -16,7 +16,7 @@
     "@types/three": "^0.178.1",
     "emailjs-com": "^3.2.0",
     "firebase": "^12.0.0",
-    "framer-motion": "^12.23.9",
+    "framer-motion": "^12.23.12",
     "ogl": "^1.0.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -1,5 +1,6 @@
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
 import FaultyTerminal from "./FaultyTerminal";
+import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps {
   darkMode: boolean;
@@ -8,9 +9,27 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ darkMode, currentColor, windowWidth }: HeroSectionProps) {
+  const navigate = useNavigate();
+  
   const nameStyle = {
     color: currentColor,
     whiteSpace: windowWidth < 301 ? 'normal' : 'nowrap' as const
+  };
+
+  const handleExploreWork = () => {
+    navigate('/work');
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleGetInTouch = () => {
+    navigate('/contact');
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   return (
@@ -83,7 +102,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth }: Her
           <div className="flex gap-4 sm:flex-col sm:gap-3 justify-center mb-12">
             <HoverCard scale={1.05} shadowIntensity={20} className="w-full sm:w-auto">
               <button 
-                onClick={() => window.location.href = '/work'}
+                onClick={handleExploreWork}
                 className="w-full px-8 sm:px-12 md:px-16 py-4 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
                 style={{ backgroundColor: currentColor }}
               >
@@ -92,7 +111,7 @@ export default function HeroSection({ darkMode, currentColor, windowWidth }: Her
             </HoverCard>
             <HoverCard scale={1.05} shadowIntensity={20} className="w-full sm:w-auto">
               <button 
-                onClick={() => window.location.href = '/contact'}
+                onClick={handleGetInTouch}
                 className="w-full px-8 sm:px-12 md:px-16 py-4 border-2 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-neutral-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
                 style={{ borderColor: currentColor }}
               >
