@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
 import Navigation from "@/components/Navigation/Navigation";
+import ContactHeader from "@/components/Index/Contact/ContactHeader";
 import ContactSection from "@/components/Index/Contact/ContactSection";
 import Footer from "@/components/Footer/Footer";
 
@@ -29,7 +30,8 @@ export default function Contact() {
     <div className="min-h-screen w-full font-['Inter'] transition-colors duration-300 bg-white dark:bg-black">
       <Navigation />
 
-      <main className="pt-16">
+      <main>
+        <ContactHeader currentColor={currentColor} />
         <ContactSection currentColor={currentColor} />
       </main>
 

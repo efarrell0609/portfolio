@@ -195,23 +195,8 @@ export default function ContactSection({ currentColor }: ContactSectionProps) {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-800">
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <FadeInOnScroll direction="up" duration={800} delay={200} elementId="contact-header">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Get In Touch
-            </h2>
-            <div 
-              className="w-20 h-1 mx-auto rounded-full mb-4"
-              style={{ backgroundColor: currentColor }}
-            />
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Let's work together
-            </p>
-          </div>
-        </FadeInOnScroll>
+    <section id="contact-form" className="py-20 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-900">
+      <div className="max-w-7xl mx-auto">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}

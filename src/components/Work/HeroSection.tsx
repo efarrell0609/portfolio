@@ -234,7 +234,7 @@ const HeroSection: FC<HeroSectionProps> = ({
          {show3DModel && <ComputersCanvas />}
          
          {scrollToId && (
-            <div className="absolute bottom-8 md:bottom-8 bottom-20 flex w-full items-center justify-center">
+            <div className="absolute bottom-8 md:bottom-8 bottom-40 flex w-full items-center justify-center">
                <button 
                   onClick={() => {
                      const element = document.getElementById(scrollToId);
