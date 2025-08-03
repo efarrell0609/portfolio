@@ -66,7 +66,7 @@ export default function EducationSection({ currentColor }: EducationSectionProps
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* SUNY Poly */}
           <FadeInOnScroll direction="right" duration={800} delay={400} elementId="education-suny">
-            <HoverCard scale={1.02} shadowIntensity={20} className="bg-white dark:bg-neutral-700 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-neutral-600">
+            <HoverCard scale={1.02} shadowIntensity={20} className="bg-white dark:bg-black rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-neutral-600">
               <div className="flex flex-col items-center text-center gap-6">
                 <div className="flex-shrink-0">
                   <img 
@@ -92,7 +92,7 @@ export default function EducationSection({ currentColor }: EducationSectionProps
 
           {/* JCC */}
           <FadeInOnScroll direction="left" duration={800} delay={600} elementId="education-jcc">
-            <HoverCard scale={1.02} shadowIntensity={20} className="bg-white dark:bg-neutral-700 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-neutral-600">
+            <HoverCard scale={1.02} shadowIntensity={20} className="bg-white dark:bg-black rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-neutral-600">
               <div className="flex flex-col items-center text-center gap-6">
                 <div className="flex-shrink-0">
                   <img 
@@ -120,14 +120,14 @@ export default function EducationSection({ currentColor }: EducationSectionProps
         {/* Interactive Course Display */}
         <FadeInOnScroll direction="up" duration={800} delay={800} elementId="education-courses">
           <div className="mt-12 flex justify-center">
-            <div className="bg-white dark:bg-neutral-700 rounded-2xl p-4 shadow-lg border border-gray-100 dark:border-neutral-600 max-w-xl w-full">
+            <div className="bg-white dark:bg-black rounded-2xl p-4 shadow-lg border border-gray-100 dark:border-neutral-600 max-w-xl w-full">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 text-center">
                 Coursework
               </h3>
               <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 text-center">
                 A comprehensive curriculum spanning from core programming fundamentals to advanced computer science concepts, including algorithms, software engineering, and specialized topics
               </p>
-              <div className="bg-gray-50 dark:bg-neutral-600 rounded-xl p-3 text-center flex items-center justify-center min-h-[80px] overflow-hidden">
+              <div className="bg-gray-50 dark:bg-neutral-800 rounded-xl p-3 text-center flex items-center justify-center min-h-[80px] overflow-hidden">
                 <RotatingText
                   texts={allCourses}
                   mainClassName="text-base font-medium text-gray-800 dark:text-gray-200 text-center"

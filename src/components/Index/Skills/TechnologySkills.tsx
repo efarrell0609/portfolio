@@ -44,7 +44,7 @@ export default function TechnologySkills({ currentColor }: TechnologySkillsProps
             key={tech.name} 
             scale={1.05} 
             shadowIntensity={10} 
-            className="group bg-white dark:bg-neutral-700 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600 w-32 md:w-36 lg:w-40"
+            className="group bg-white dark:bg-black rounded-lg p-4 shadow-sm border border-gray-100 dark:border-neutral-600 w-32 md:w-36 lg:w-40"
           >
             <div className="text-center">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{tech.name}</span>
