@@ -193,7 +193,7 @@ export default function Navigation() {
                 className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                   shouldBeTransparent 
                     ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
-                    : 'bg-gray-100 hover:bg-gray-200'
+                    : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
                 }`}
                 style={{
                   backgroundColor: shouldBeTransparent 
@@ -244,10 +244,12 @@ export default function Navigation() {
               className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${
                 shouldBeTransparent 
                   ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
-                  : 'bg-gray-100 text-gray-600 dark:text-white hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
               }`}
               style={{
-                backgroundColor: darkMode ? '#0B0B0B' : undefined
+                backgroundColor: shouldBeTransparent 
+                  ? darkMode ? '#0B0B0B' : undefined
+                  : darkMode ? '#0B0B0B' : undefined
               }}
             >
               {!darkMode ? (
@@ -269,6 +271,11 @@ export default function Navigation() {
                   ? 'bg-white/40 text-gray-900 dark:text-white hover:bg-white/50' 
                   : 'bg-gray-100 dark:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600'
               }`}
+              style={{
+                backgroundColor: shouldBeTransparent 
+                  ? darkMode ? '#0B0B0B' : undefined
+                  : darkMode ? '#0B0B0B' : undefined
+              }}
             >
               {!mobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
