@@ -42,7 +42,7 @@ const CanvasLoader = () => {
 };
 
 // 3D Laptop Component
-const Computers: FC = () => {
+const Computers: FC<{ isLandscape?: boolean }> = ({ isLandscape = false }) => {
    const laptop = useGLTF('/laptop_with_code/scene.gltf');
    const { animations } = laptop;
    const mixer = useRef<THREE.AnimationMixer | null>(null);
@@ -83,26 +83,17 @@ const Computers: FC = () => {
       }
    }, [animations, laptop.scene]);
 
+   // No idle animation - only draggable
+   const meshRef = useRef<THREE.Mesh>(null);
+   
    useFrame((state, delta) => {
       if (mixer.current) {
          mixer.current.update(delta);
       }
-   });
-
-   // Add rotation animation with drag support
-   const meshRef = useRef<THREE.Mesh>(null);
-   const [isDragging, setIsDragging] = useState(false);
-   const [dragRotation, setDragRotation] = useState(0);
-   
-   useFrame((state) => {
+      
       if (meshRef.current) {
-         if (isDragging) {
-            // Use drag rotation
-            meshRef.current.rotation.y = dragRotation;
-         } else {
-            // Gentle idle rotation animation
-            meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-         }
+         // Keep laptop still - no idle animation
+         meshRef.current.rotation.y = 0;
       }
    });
 
@@ -117,7 +108,20 @@ const Computers: FC = () => {
    else scale = 0.7;
    
    // Simple Y position - always centered vertically
-   const yPosition = -1.0;
+   let yPosition = -1.0;
+   
+   // Fix for devices like NextHub with small height and wide width
+   const aspectRatio = deviceWidth / deviceHeight;
+   if (aspectRatio > 1.5 && deviceHeight < 800) {
+      yPosition = -1.2; // Move down more for wide, short screens
+      scale = scale * 0.6; // Scale way down
+   }
+   
+   // Landscape adjustments for mobile devices
+   if (isLandscape && deviceWidth <= 1024) {
+      scale = scale * 2.8; // 3x bigger in landscape (0.8 * 3 = 2.4)
+      yPosition = -0.3; // Better positioning for larger laptop
+   }
    
    const position = [0, yPosition, 0];
 
@@ -144,16 +148,14 @@ const Computers: FC = () => {
 };
 
 // Computers Canvas Component
-const ComputersCanvas = () => {
-   const [isDragging, setIsDragging] = useState(false);
-   const [dragRotation, setDragRotation] = useState(0);
-
+const ComputersCanvas = ({ isLandscape }: { isLandscape: boolean }) => {
    return (
       <Canvas
          frameloop="always"
          shadows
          camera={{ position: [0, 0, 8], fov: 35 }}
          gl={{ preserveDrawingBuffer: true }}
+         style={{ cursor: 'grab' }}
       >
          <Suspense fallback={<CanvasLoader />}>
             <OrbitControls
@@ -162,15 +164,8 @@ const ComputersCanvas = () => {
                enableRotate={true}
                maxPolarAngle={Math.PI / 2}
                minPolarAngle={Math.PI / 2}
-               maxAzimuthAngle={Math.PI / 2}
-               minAzimuthAngle={-Math.PI / 2}
-               onStart={() => setIsDragging(true)}
-               onEnd={() => {
-                  setIsDragging(false);
-                  setDragRotation(0);
-               }}
             />
-            <Computers />
+            <Computers isLandscape={isLandscape} />
          </Suspense>
          <Preload all />
       </Canvas>
@@ -203,72 +198,91 @@ const HeroSection: FC<HeroSectionProps> = ({
       const checkOrientation = () => {
          const width = window.innerWidth;
          const height = window.innerHeight;
-         const isMobileDevice = width <= 640;
+         const aspectRatio = width / height;
+         
+         // Very comprehensive mobile detection - catch all mobile devices
+         const isMobileDevice = width <= 1024 || (width <= 1200 && aspectRatio > 1.1);
          const isLandscapeOrientation = width > height;
          
+         // Apply landscape layout to all mobile devices in landscape
+         const shouldUseLandscape = isMobileDevice && isLandscapeOrientation;
+         
          setIsMobile(isMobileDevice);
-         setIsLandscape(isMobileDevice && isLandscapeOrientation);
+         setIsLandscape(shouldUseLandscape);
       };
       
       checkOrientation();
       window.addEventListener('resize', checkOrientation);
-      return () => window.removeEventListener('resize', checkOrientation);
+      window.addEventListener('orientationchange', checkOrientation);
+      return () => {
+         window.removeEventListener('resize', checkOrientation);
+         window.removeEventListener('orientationchange', checkOrientation);
+      };
    }, []);
    
    return (
       <section className={`relative w-full h-screen mx-auto ${backgroundClass}`}>
          <ParticlesBg />
          <div className={`${styles.paddingX} absolute inset-0 md:top-[80px] top-[100px] max-w-7xl mx-auto`}>
-            {/* Text Content - Left aligned towards the top */}
+            {/* Main Layout Container */}
             <div className="relative z-10 h-full flex flex-col justify-start pt-20">
-               <div className="flex flex-row items-start gap-5">
-                  <div className="flex flex-col justify-center items-center mt-5 mb-4">
-                     <div 
-                        className="w-5 h-5 rounded-full" 
-                        style={{ backgroundColor: currentColor }}
-                     />
-                     <div 
-                        className="w-1 sm:h-60 h-32 rounded-full" 
-                        style={{ 
-                           background: `linear-gradient(180deg, ${currentColor} 0%, transparent 100%)`
-                        }}
-                     />
-                  </div>
+               {/* Content Container - Changes to 2-column in landscape */}
+               <div className={`h-full ${isLandscape ? 'flex flex-row' : 'flex flex-col'}`}>
+                  {/* Left Column - Text Content */}
+                  <div className={`${isLandscape ? 'w-1/2' : 'w-full'} flex flex-row items-start gap-5`}>
+                     <div className={`flex flex-col justify-center items-center ${isLandscape ? 'mt-2' : 'mt-5 mb-4'}`}>
+                        <div 
+                           className="w-5 h-5 rounded-full" 
+                           style={{ backgroundColor: currentColor }}
+                        />
+                        <div 
+                           className={`w-1 rounded-full ${isLandscape ? 'h-20' : 'sm:h-60 h-32'}`}
+                           style={{ 
+                              background: `linear-gradient(180deg, ${currentColor} 0%, transparent 100%)`
+                           }}
+                        />
+                     </div>
 
-                  <div className="mt-0 flex-1">
-                     <h1 className={`${styles.heroHeadText} text-gray-900 dark:text-white`}>
-                        {title.split(' ').map((word, index) => (
-                           <span key={index}>
-                              {word === highlightWord ? (
-                                 <span style={{ color: currentColor }}>{word}</span>
-                              ) : (
-                                 word
-                              )}
-                              {index < title.split(' ').length - 1 ? ' ' : ''}
-                           </span>
-                        ))}
-                     </h1>
-                     <p className={`${styles.heroSubText} mt-2 text-black dark:text-gray-300`}>
-                        {subtitle}
-                     </p>
+                     <div className={`${isLandscape ? 'mt-2' : 'mt-0'} flex-1`}>
+                        <h1 className={`${isLandscape ? 'text-3xl sm:text-4xl lg:text-5xl font-bold' : styles.heroHeadText} text-gray-900 dark:text-white`}>
+                           {title.split(' ').map((word, index) => (
+                              <span key={index}>
+                                 {word === highlightWord ? (
+                                    <span style={{ color: currentColor }}>{word}</span>
+                                 ) : (
+                                    word
+                                 )}
+                                 {index < title.split(' ').length - 1 ? ' ' : ''}
+                              </span>
+                           ))}
+                        </h1>
+                        <p className={`${isLandscape ? 'text-base sm:text-lg lg:text-xl' : styles.heroSubText} mt-2 text-black dark:text-gray-300`}>
+                           {subtitle}
+                        </p>
+                     </div>
                   </div>
+                  
+                  {/* Right Column - 3D Model (only in landscape) */}
+                  {isLandscape && show3DModel && (
+                     <div className="w-1/2 h-full flex items-center justify-center z-10">
+                        <ComputersCanvas isLandscape={isLandscape} />
+                     </div>
+                  )}
                </div>
             </div>
             
-            {/* 3D Model - Interactive and properly positioned */}
-            {show3DModel && (
-               <div className="absolute inset-0">
+            {/* 3D Model - Centered (only in portrait) */}
+            {!isLandscape && show3DModel && (
+               <div className="absolute inset-0 z-10">
                   <div className="w-full h-full flex items-center justify-center">
-                     <div className={`w-full h-full flex items-center justify-center ${isLandscape ? 'w-1/2 ml-auto' : ''}`}>
-                        <ComputersCanvas />
-                     </div>
+                     <ComputersCanvas isLandscape={isLandscape} />
                   </div>
                </div>
             )}
          </div>
          
          {scrollToId && (
-            <div className="absolute bottom-20 md:bottom-8 flex w-full items-center justify-center">
+            <div className="absolute bottom-20 md:bottom-8 flex w-full items-center justify-center z-50">
                <button 
                   onClick={() => {
                      const element = document.getElementById(scrollToId);

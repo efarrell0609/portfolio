@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer/Footer";
 import HeroSection from "@/components/Work/HeroSection";
 import WorkExperience from "@/components/Work/WorkExperience";
+import Projects from "@/components/Work/Projects";
 
 export default function Work() {
   const { darkMode, currentColor } = useSettings();
@@ -28,6 +29,7 @@ export default function Work() {
         />
         
         <WorkExperience />
+        <Projects />
       </main>
       <Footer currentColor={currentColor} />
     </div>

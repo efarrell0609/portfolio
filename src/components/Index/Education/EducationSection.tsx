@@ -122,11 +122,9 @@ export default function EducationSection({ currentColor }: EducationSectionProps
           <div className="mt-12 flex justify-center">
             <div className="bg-white dark:bg-black rounded-2xl p-4 shadow-lg border border-gray-100 dark:border-neutral-600 max-w-xl w-full">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 text-center">
-                Coursework
+                Relevant Coursework
               </h3>
-              <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 text-center">
-                A comprehensive curriculum spanning from core programming fundamentals to advanced computer science concepts, including algorithms, software engineering, and specialized topics
-              </p>
+
               <div className="bg-gray-50 dark:bg-neutral-800 rounded-xl p-3 text-center flex items-center justify-center min-h-[80px] overflow-hidden">
                 <RotatingText
                   texts={allCourses}

@@ -1,6 +1,5 @@
 import LanguageSkills from "./LanguageSkills";
 import TechnologySkills from "./TechnologySkills";
-import SoftSkills from "./SoftSkills";
 import { FadeInOnScroll } from "@/components/ScrollReveal";
 import { useRef, useEffect, useState } from "react";
 
@@ -54,10 +53,6 @@ export default function SkillsSection({ currentColor }: SkillsSectionProps) {
         
         <FadeInOnScroll direction="up" duration={800} delay={800} elementId="skills-technologies">
           <TechnologySkills currentColor={currentColor} />
-        </FadeInOnScroll>
-        
-        <FadeInOnScroll direction="up" duration={800} delay={1000} elementId="skills-soft">
-          <SoftSkills currentColor={currentColor} />
         </FadeInOnScroll>
       </div>
     </section>

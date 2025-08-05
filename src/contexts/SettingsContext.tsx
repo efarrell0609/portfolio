@@ -22,7 +22,7 @@ interface SettingsProviderProps {
 export function SettingsProvider({ children }: SettingsProviderProps) {
   // Theme state
   const [darkMode, setDarkModeState] = useState(true);
-  const [currentColor, setCurrentColorState] = useState('#F59E0B');
+  const [currentColor, setCurrentColorState] = useState('#EF4444');
   
   // Simple animation cache using Set
   const [animationCache, setAnimationCache] = useState<Set<string>>(new Set());
