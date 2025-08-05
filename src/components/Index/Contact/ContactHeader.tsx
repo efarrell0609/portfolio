@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion';
-import { useSettings } from '@/contexts/SettingsContext';
 import { FadeInOnScroll } from '@/components/ScrollReveal';
 import { PhoneBoothCanvas } from '@/components/canvas';
-import { useEffect } from 'react';
 
 interface ContactHeaderProps {
   currentColor: string;

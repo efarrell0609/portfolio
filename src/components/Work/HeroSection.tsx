@@ -12,9 +12,9 @@ const styles = {
    paddingY: 'sm:py-16 py-6',
    padding: 'sm:px-16 px-6 sm:py-16 py-10',
    heroHeadText:
-    'font-black lg:text-[80px] sm:text-[60px] xs:text-[50px] text-[40px] lg:leading-[98px] mt-2',
+    'font-black lg:text-[80px] sm:text-[60px] xs:text-[50px] text-[32px] lg:leading-[98px] mt-2',
    heroSubText:
-    'font-medium lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px]',
+    'font-medium lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[14px] lg:leading-[40px]',
    sectionHeadText:
     'font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]',
    sectionSubText:
@@ -42,7 +42,7 @@ const CanvasLoader = () => {
 };
 
 // 3D Laptop Component
-const Computers: FC<{ isMobile?: boolean; isSmallMobile?: boolean; isMediumMobile?: boolean }> = ({ isMobile = false, isSmallMobile = false, isMediumMobile = false }) => {
+const Computers: FC = () => {
    const laptop = useGLTF('/laptop_with_code/scene.gltf');
    const { animations } = laptop;
    const mixer = useRef<THREE.AnimationMixer | null>(null);
@@ -89,29 +89,40 @@ const Computers: FC<{ isMobile?: boolean; isSmallMobile?: boolean; isMediumMobil
       }
    });
 
-   // Determine scale and position based on mobile and height
-   let scale = 0.9;
-   let position = [0, -1.5, 0];
+   // Add rotation animation with drag support
+   const meshRef = useRef<THREE.Mesh>(null);
+   const [isDragging, setIsDragging] = useState(false);
+   const [dragRotation, setDragRotation] = useState(0);
    
-   if (isSmallMobile) {
-      scale = 0.6; // Smallest mobile (450px and below)
-      position = [0, -1.2, 0]; // Move up to avoid scroll indicator
-   } else if (isMobile) {
-      scale = 0.7; // Medium mobile (500px and below)
-      position = [0, -1.3, 0]; // Move up slightly
-   } else if (isMediumMobile) {
-      scale = 0.8; // Medium mobile (640px and below)
-      position = [0, -1.4, 0]; // Move up slightly
-   } else if (isVerySmallHeight) {
-      scale = 0.6; // Very small height (<700px)
-      position = [0, -1.1, 0]; // Move up more for small height
-   } else if (isSmallHeight) {
-      scale = 0.7; // Small height (<900px)
-      position = [0, -1.2, 0]; // Move up for small height
-   }
+   useFrame((state) => {
+      if (meshRef.current) {
+         if (isDragging) {
+            // Use drag rotation
+            meshRef.current.rotation.y = dragRotation;
+         } else {
+            // Gentle idle rotation animation
+            meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+         }
+      }
+   });
+
+   // Simple, consistent positioning that works everywhere
+   const deviceWidth = window.innerWidth;
+   const deviceHeight = window.innerHeight;
+   
+   // Simple scale based on screen width
+   let scale = 0.7;
+   if (deviceWidth <= 480) scale = 0.5;
+   else if (deviceWidth <= 768) scale = 0.6;
+   else scale = 0.7;
+   
+   // Simple Y position - always centered vertically
+   const yPosition = -1.0;
+   
+   const position = [0, yPosition, 0];
 
    return (
-      <mesh>
+      <mesh ref={meshRef}>
          <hemisphereLight intensity={0.15} groundColor="black" />
          <pointLight intensity={10} position={[0, -0.2, 0]} />
          <spotLight
@@ -134,26 +145,8 @@ const Computers: FC<{ isMobile?: boolean; isSmallMobile?: boolean; isMediumMobil
 
 // Computers Canvas Component
 const ComputersCanvas = () => {
-   const [isMobile, setIsMobile] = useState<boolean>(false);
-   const [isSmallMobile, setIsSmallMobile] = useState<boolean>(false);
-   const [isMediumMobile, setIsMediumMobile] = useState<boolean>(false);
-
-   useEffect(()=>{
-      const checkMobile = () => {
-         const is640px = window.innerWidth <= 640;
-         const is500px = window.innerWidth <= 500;
-         const is450px = window.innerWidth <= 450;
-         
-         setIsMediumMobile(is640px);
-         setIsMobile(is500px);
-         setIsSmallMobile(is450px);
-      };
-      
-      checkMobile();
-      window.addEventListener('resize', checkMobile);
-
-      return (()=>window.removeEventListener('resize', checkMobile));
-   }, []);
+   const [isDragging, setIsDragging] = useState(false);
+   const [dragRotation, setDragRotation] = useState(0);
 
    return (
       <Canvas
@@ -165,10 +158,19 @@ const ComputersCanvas = () => {
          <Suspense fallback={<CanvasLoader />}>
             <OrbitControls
                enableZoom={false}
+               enablePan={false}
+               enableRotate={true}
                maxPolarAngle={Math.PI / 2}
                minPolarAngle={Math.PI / 2}
+               maxAzimuthAngle={Math.PI / 2}
+               minAzimuthAngle={-Math.PI / 2}
+               onStart={() => setIsDragging(true)}
+               onEnd={() => {
+                  setIsDragging(false);
+                  setDragRotation(0);
+               }}
             />
-            <Computers isMobile={isMobile} isSmallMobile={isSmallMobile} isMediumMobile={isMediumMobile}/>
+            <Computers />
          </Suspense>
          <Preload all />
       </Canvas>
@@ -194,47 +196,79 @@ const HeroSection: FC<HeroSectionProps> = ({
    show3DModel = true
 }) => {
    const { currentColor } = useSettings();
+   const [isLandscape, setIsLandscape] = useState(false);
+   const [isMobile, setIsMobile] = useState(false);
+
+   useEffect(() => {
+      const checkOrientation = () => {
+         const width = window.innerWidth;
+         const height = window.innerHeight;
+         const isMobileDevice = width <= 640;
+         const isLandscapeOrientation = width > height;
+         
+         setIsMobile(isMobileDevice);
+         setIsLandscape(isMobileDevice && isLandscapeOrientation);
+      };
+      
+      checkOrientation();
+      window.addEventListener('resize', checkOrientation);
+      return () => window.removeEventListener('resize', checkOrientation);
+   }, []);
    
    return (
       <section className={`relative w-full h-screen mx-auto ${backgroundClass}`}>
          <ParticlesBg />
-         <div className={`${styles.paddingX} absolute inset-0 md:top-[80px] top-[100px] max-w-7xl mx-auto flex flex-row items-start gap-5 pb-1`}>
-            <div className="flex flex-col justify-center items-center mt-5 mb-4">
-               <div 
-                  className="w-5 h-5 rounded-full" 
-                  style={{ backgroundColor: currentColor }}
-               />
-               <div 
-                  className="w-1 sm:h-60 h-32 rounded-full" 
-                  style={{ 
-                     background: `linear-gradient(180deg, ${currentColor} 0%, transparent 100%)`
-                  }}
-               />
-            </div>
+         <div className={`${styles.paddingX} absolute inset-0 md:top-[80px] top-[100px] max-w-7xl mx-auto`}>
+            {/* Text Content - Left aligned towards the top */}
+            <div className="relative z-10 h-full flex flex-col justify-start pt-20">
+               <div className="flex flex-row items-start gap-5">
+                  <div className="flex flex-col justify-center items-center mt-5 mb-4">
+                     <div 
+                        className="w-5 h-5 rounded-full" 
+                        style={{ backgroundColor: currentColor }}
+                     />
+                     <div 
+                        className="w-1 sm:h-60 h-32 rounded-full" 
+                        style={{ 
+                           background: `linear-gradient(180deg, ${currentColor} 0%, transparent 100%)`
+                        }}
+                     />
+                  </div>
 
-            <div className="mt-0">
-               <h1 className={`${styles.heroHeadText} text-gray-900 dark:text-white`}>
-                  {title.split(' ').map((word, index) => (
-                     <span key={index}>
-                        {word === highlightWord ? (
-                           <span style={{ color: currentColor }}>{word}</span>
-                        ) : (
-                           word
-                        )}
-                        {index < title.split(' ').length - 1 ? ' ' : ''}
-                     </span>
-                  ))}
-               </h1>
-               <p className={`${styles.heroSubText} mt-2 text-black dark:text-gray-300`}>
-                  {subtitle}
-               </p>
+                  <div className="mt-0 flex-1">
+                     <h1 className={`${styles.heroHeadText} text-gray-900 dark:text-white`}>
+                        {title.split(' ').map((word, index) => (
+                           <span key={index}>
+                              {word === highlightWord ? (
+                                 <span style={{ color: currentColor }}>{word}</span>
+                              ) : (
+                                 word
+                              )}
+                              {index < title.split(' ').length - 1 ? ' ' : ''}
+                           </span>
+                        ))}
+                     </h1>
+                     <p className={`${styles.heroSubText} mt-2 text-black dark:text-gray-300`}>
+                        {subtitle}
+                     </p>
+                  </div>
+               </div>
             </div>
+            
+            {/* 3D Model - Interactive and properly positioned */}
+            {show3DModel && (
+               <div className="absolute inset-0">
+                  <div className="w-full h-full flex items-center justify-center">
+                     <div className={`w-full h-full flex items-center justify-center ${isLandscape ? 'w-1/2 ml-auto' : ''}`}>
+                        <ComputersCanvas />
+                     </div>
+                  </div>
+               </div>
+            )}
          </div>
          
-         {show3DModel && <ComputersCanvas />}
-         
          {scrollToId && (
-            <div className="absolute bottom-8 md:bottom-8 bottom-40 flex w-full items-center justify-center">
+            <div className="absolute bottom-20 md:bottom-8 flex w-full items-center justify-center">
                <button 
                   onClick={() => {
                      const element = document.getElementById(scrollToId);

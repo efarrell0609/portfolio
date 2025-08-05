@@ -105,9 +105,21 @@ const ExperienceCard: React.FC<TExperience & { index: number }> = ({ date, iconB
 
 // Main Experience Component
 const WorkExperience: React.FC = () => {
+  const { currentColor } = useSettings();
+  
   return (
     <section id="work" className="py-20 px-4 sm:px-6 bg-white dark:bg-black">
       <div className="max-w-6xl mx-auto">
+        {/* Section Title */}
+        <div className="mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
+            What I have done so far
+          </h2>
+          <h3 className="text-2xl sm:text-3xl font-semibold mt-2" style={{ color: currentColor }}>
+            Work Experience.
+          </h3>
+        </div>
+        
         <div className="mt-20 flex flex-col">
           <VerticalTimeline>
             {experiences.map((experience, index) => (
