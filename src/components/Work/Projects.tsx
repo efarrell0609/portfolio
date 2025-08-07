@@ -6,7 +6,7 @@ import { FadeInOnScroll } from '@/components/ScrollReveal';
 
 // Helper function to get portfolio image
 const getPortfolioImage = (): string => {
-  return '/src/assets/work/ef-red.png';
+  return '/assets/work/ef-red.png';
 };
 
 // Types
@@ -40,7 +40,7 @@ const projects: TProject[] = [
   {
     title: '3D Floating Laptop',
     description: 'Interactive 3D application featuring a floating laptop with a fully functional website interface rendered directly on the 3D screen.',
-    image: '/src/assets/work/3d-laptop-preview.png',
+    image: '/assets/work/3d-laptop-preview.png',
     technologies: ['React', 'Three.js', '@react-three/fiber', '@react-three/drei', 'Vite', 'Tailwind CSS'],
     githubUrl: 'https://github.com/elijah-farrell/3d-floating-laptop',
     liveUrl: 'https://3d-floating-laptop.vercel.app/'
@@ -72,7 +72,7 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
                 <div className="bg-white dark:bg-neutral-800 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-neutral-600 h-[460px] flex flex-col justify-between">
           {/* Project Image */}
           <div className="relative w-full h-56 mb-3 rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-700 flex-shrink-0 border-2 border-gray-200 dark:border-neutral-600">
-            {image === '/src/assets/work/3d-laptop-preview.png' ? (
+            {image === '/assets/work/3d-laptop-preview.png' ? (
               <img 
                 src={image} 
                 alt={`${title} preview`}
