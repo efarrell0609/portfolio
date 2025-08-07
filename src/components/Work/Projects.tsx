@@ -4,11 +4,16 @@ import { Tilt } from 'react-tilt';
 import { useSettings } from '@/contexts/SettingsContext';
 import { FadeInOnScroll } from '@/components/ScrollReveal';
 
+// Helper function to get portfolio image
+const getPortfolioImage = (): string => {
+  return '/src/assets/work/ef-red.png';
+};
+
 // Types
 interface TProject {
   title: string;
   description: string;
-  image: string;
+  image: string; // Can be path, 'portfolio' for dynamic image, or placeholder path
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
@@ -19,7 +24,7 @@ const projects: TProject[] = [
   {
     title: 'Portfolio Website',
     description: 'A modern, responsive portfolio website built with React, TypeScript, and Three.js. Features 3D models, smooth animations, and a contact form with EmailJS integration.',
-    image: '/portfolio-preview.jpg', // You can add a preview image later
+    image: 'portfolio', // Special identifier for dynamic image
     technologies: ['React', 'TypeScript', 'Three.js', 'Tailwind CSS', 'Framer Motion', 'EmailJS'],
     githubUrl: 'https://github.com/elijah-farrell/portfolio',
     liveUrl: 'https://elijahfarrell.com'
@@ -33,11 +38,12 @@ const projects: TProject[] = [
     liveUrl: undefined
   },
   {
-    title: 'Project 3',
-    description: 'Coming Soon - Another exciting project is in the works. This will showcase additional skills and demonstrate continued growth.',
-    image: '/project3-preview.jpg',
-    technologies: ['Coming Soon', 'In Progress', 'More Skills'],
-    githubUrl: undefined
+    title: '3D Floating Laptop',
+    description: 'Interactive 3D application featuring a floating laptop with a fully functional website interface rendered directly on the 3D screen.',
+    image: '/src/assets/work/3d-laptop-preview.png',
+    technologies: ['React', 'Three.js', '@react-three/fiber', '@react-three/drei', 'Vite', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/elijah-farrell/3d-floating-laptop',
+    liveUrl: 'https://3d-floating-laptop.vercel.app/'
   },
   {
     title: 'Project 4',
@@ -63,32 +69,56 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
         }}
         className="cursor-pointer"
       >
-        <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-neutral-600 h-full flex flex-col">
+                <div className="bg-white dark:bg-neutral-800 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-neutral-600 h-[460px] flex flex-col justify-between">
           {/* Project Image */}
-          <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-700 flex-shrink-0">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-gray-500 dark:text-gray-400 text-center">
-                <div className="text-4xl mb-2">📱</div>
-                <div className="text-sm">Project Preview</div>
+          <div className="relative w-full h-56 mb-3 rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-700 flex-shrink-0 border-2 border-gray-200 dark:border-neutral-600">
+            {image === '/src/assets/work/3d-laptop-preview.png' ? (
+              <img 
+                src={image} 
+                alt={`${title} preview`}
+                className="w-full h-full object-contain bg-white dark:bg-neutral-800"
+                onError={(e) => {
+                  console.error('Image failed to load:', image);
+                  (e.currentTarget as HTMLElement).style.display = 'none';
+                  ((e.currentTarget as HTMLElement).nextElementSibling as HTMLElement).style.display = 'flex';
+                }}
+              />
+            ) : image === 'portfolio' ? (
+              <img 
+                src={getPortfolioImage()}
+                alt={`${title} preview`}
+                className="w-full h-full object-contain bg-white dark:bg-neutral-800"
+                onError={(e) => {
+                  console.error('Portfolio image failed to load');
+                  (e.currentTarget as HTMLElement).style.display = 'none';
+                  ((e.currentTarget as HTMLElement).nextElementSibling as HTMLElement).style.display = 'flex';
+                }}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-800 dark:to-neutral-700">
+                <div className="text-gray-500 dark:text-gray-400 text-center">
+                  <div className="text-4xl mb-2">📱</div>
+                  <div className="text-sm font-medium">Project Preview</div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           
           {/* Project Info */}
-          <div className="space-y-4 flex-1 flex flex-col">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed flex-1">{description}</p>
+          <div className="space-y-2 flex flex-col">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed flex-1 text-sm">{description}</p>
             
             {/* Technologies */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 mt-1">
               {technologies.map((tech, techIndex) => (
                 <span
                   key={techIndex}
-                  className="px-3 py-1 text-xs font-medium rounded-full"
+                  className="px-2.5 py-1 text-xs font-medium rounded-md"
                   style={{ 
-                    backgroundColor: `${currentColor}20`,
+                    backgroundColor: `${currentColor}15`,
                     color: currentColor,
-                    border: `1px solid ${currentColor}40`
+                    border: `1px solid ${currentColor}30`
                   }}
                 >
                   {tech}
@@ -97,7 +127,7 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
             </div>
             
             {/* Links */}
-            <div className="flex gap-3 pt-2 mt-auto min-h-[44px]">
+            <div className="flex gap-3 pt-0">
               {githubUrl ? (
                 <a
                   href={githubUrl}
@@ -186,7 +216,7 @@ const Projects: React.FC = () => {
         </div>
         
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} index={index} />
           ))}

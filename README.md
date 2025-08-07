@@ -39,6 +39,18 @@ A modern, responsive portfolio built with React and TypeScript featuring dynamic
 - **GitHub**: elijah-farrell
 - **Location**: Watertown, NY
 
+## License
+
+This portfolio is licensed under the Creative Commons Attribution 4.0 International License. This means you are free to:
+
+- **Share** — copy and redistribute this work in any medium or format for any purpose, even commercially
+- **Adapt** — remix, transform, and build upon this work for any purpose, even commercially
+
+Under the following terms:
+- **Attribution** — You must give appropriate credit to Elijah Farrell, provide a link to the license, and indicate if changes were made
+
+For the full license text, see the [LICENSE](LICENSE) file or visit https://creativecommons.org/licenses/by/4.0/
+
 ## 3D Models
 
 This portfolio features two 3D models with different licenses:
