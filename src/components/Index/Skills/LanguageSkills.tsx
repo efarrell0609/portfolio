@@ -7,6 +7,7 @@ import cLogo from '@/assets/technologies/c.png';
 import typescriptLogo from '@/assets/technologies/typescript.png';
 import htmlLogo from '@/assets/technologies/html.png';
 import cssLogo from '@/assets/technologies/css.svg';
+import tinyChefsImg from "@/assets/Tiny Chefs, Tech Kitchen.png";
 
 interface LanguageSkillsProps {
   currentColor: string;
@@ -14,74 +15,111 @@ interface LanguageSkillsProps {
 
 export default function LanguageSkills({ currentColor }: LanguageSkillsProps) {
   const languages = [
-    // First row - Main languages
     { 
       name: 'Python', 
-      level: 90, 
       image: pythonLogo
     },
     { 
       name: 'Java', 
-      level: 85, 
       image: javaLogo
     },
     { 
-      name: 'JavaScript', 
-      level: 80, 
-      image: javascriptLogo
-    },
-    { 
-      name: 'C++', 
-      level: 75, 
-      image: cppLogo
-    },
-    { 
       name: 'C', 
-      level: 70, 
       image: cLogo
     },
     { 
+      name: 'C++', 
+      image: cppLogo
+    },
+    { 
+      name: 'JavaScript', 
+      image: javascriptLogo
+    },
+    { 
       name: 'TypeScript', 
-      level: 85, 
       image: typescriptLogo
     },
-    
-    // Second row - HTML, CSS
     { 
       name: 'HTML', 
-      level: 85, 
       image: htmlLogo
     },
     { 
       name: 'CSS', 
-      level: 80, 
       image: cssLogo
     }
   ];
 
   return (
     <div className="mb-16">
+      {/* Section Header */}
       <div className="text-center mb-12">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
           Languages
         </h3>
-        <p className="text-gray-600 dark:text-gray-300">Programming, markup, and styling languages I use to build solutions</p>
+        <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
+          Programming, markup, and styling languages I use to build solutions
+        </p>
       </div>
-      <div className="flex flex-wrap justify-center gap-6">
-        {languages.map((skill, index) => (
-          <HoverCard key={skill.name} scale={1.05} shadowIntensity={15} className="group relative bg-white dark:bg-black rounded-xl p-6 shadow-sm border border-gray-100 dark:border-neutral-600 w-[calc(50%-12px)] md:w-[calc(25%-18px)]">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-lg mx-auto mb-3 flex items-center justify-center overflow-hidden bg-white dark:bg-white">
-                <img 
-                  src={skill.image} 
-                  alt={skill.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">{skill.name}</h4>
+
+      {/* Languages Layout with Integrated Image */}
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Languages Grid */}
+          <div className="order-2 lg:order-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {languages.map((skill, index) => (
+                <HoverCard 
+                  key={skill.name} 
+                  scale={1.05} 
+                  shadowIntensity={12} 
+                  className="group relative"
+                >
+                  <div className="bg-white dark:bg-black rounded-xl p-4 shadow-md border border-gray-200 dark:border-neutral-700 transition-all duration-300 hover:shadow-lg">
+                    <div className="text-center">
+                      <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center overflow-hidden bg-white shadow-sm">
+                        <img 
+                          src={skill.image} 
+                          alt={skill.name}
+                          className="w-10 h-10 object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                      </div>
+                      <h4 className="font-semibold text-sm text-gray-900 dark:text-white">
+                        {skill.name}
+                      </h4>
+                    </div>
+                  </div>
+                </HoverCard>
+              ))}
             </div>
-          </HoverCard>
-        ))}
+          </div>
+
+          {/* Integrated Tiny Chefs Image */}
+          <div className="order-1 lg:order-2 flex justify-center">
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                <img
+                  src={tinyChefsImg}
+                  alt="Pixar-style chefs cooking with programming languages"
+                  className="w-full max-w-md h-auto object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+              </div>
+              
+              {/* Floating accent */}
+              <div 
+                className="absolute -top-2 -right-2 w-8 h-8 rounded-full opacity-60 blur-sm"
+                style={{ backgroundColor: currentColor }}
+              ></div>
+              <div 
+                className="absolute -bottom-4 -left-4 w-12 h-12 rounded-full opacity-40 blur-md"
+                style={{ backgroundColor: currentColor }}
+              ></div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );

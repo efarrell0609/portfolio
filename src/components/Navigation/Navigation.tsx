@@ -103,7 +103,7 @@ export default function Navigation() {
 
   return (
     <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+              className={`fixed top-0 w-full z-[60] transition-all duration-300 ${
         isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
       } ${
         shouldBeTransparent 
@@ -206,7 +206,7 @@ export default function Navigation() {
                 </svg>
               </button>
               {colorPickerOpen && (
-                <div className="absolute right-0 top-12 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-gray-200 dark:border-neutral-600 p-4 w-48 animate-in slide-in-from-top-2 duration-200 z-50">
+                <div className="absolute right-0 top-12 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-gray-200 dark:border-neutral-600 p-4 w-48 animate-in slide-in-from-top-2 duration-200 z-[70]">
                   <div className="space-y-3">
                     <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
                       Theme Color

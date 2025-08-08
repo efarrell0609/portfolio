@@ -1,6 +1,7 @@
 import ProfileCard from "./ProfileCard";
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
 import { useRef, useEffect, useState } from "react";
+import headshotImg from "@/assets/headshot.png";
 
 interface AboutSectionProps {
   currentColor: string;
@@ -17,7 +18,7 @@ export default function AboutSection({ currentColor }: AboutSectionProps) {
   }, []);
 
   return (
-    <section id="about" className="pt-12 pb-32 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-900">
+    <section id="about" className="pt-12 pb-16 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-900">
       
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="about-header">
@@ -62,7 +63,7 @@ export default function AboutSection({ currentColor }: AboutSectionProps) {
                   handle="elijahfarrell"
                   status="Available for Opportunities"
                   contactText="Contact Me"
-                  avatarUrl=""
+                  avatarUrl={headshotImg}
                   showUserInfo={false}
                   enableTilt={true}
                   enableMobileTilt={false}
