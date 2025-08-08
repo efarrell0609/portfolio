@@ -1,5 +1,6 @@
 import ProfileCard from "./ProfileCard";
 import { FadeInOnScroll, HoverCard } from "@/components/ScrollReveal";
+import BounceCards from "@/components/BounceCards";
  
 import headshotImg from "@/assets/headshot.png";
 
@@ -65,6 +66,40 @@ export default function AboutSection({ currentColor }: AboutSectionProps) {
             </div>
           </FadeInOnScroll>
         </div>
+        
+        {/* BounceCards Section */}
+        <FadeInOnScroll direction="up" duration={800} delay={800} elementId="about-bounce-cards">
+          <div className="mt-20 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+              My Journey in Tech
+            </h3>
+            <div className="flex justify-center">
+              <BounceCards
+                className="custom-bounceCards"
+                images={[
+                  "https://picsum.photos/400/400?grayscale",
+                  "https://picsum.photos/500/500?grayscale",
+                  "https://picsum.photos/600/600?grayscale",
+                  "https://picsum.photos/700/700?grayscale",
+                  "https://picsum.photos/300/300?grayscale"
+                ]}
+                containerWidth={500}
+                containerHeight={250}
+                animationDelay={1}
+                animationStagger={0.08}
+                easeType="elastic.out(1, 0.5)"
+                transformStyles={[
+                  "rotate(5deg) translate(-150px)",
+                  "rotate(0deg) translate(-70px)",
+                  "rotate(-5deg)",
+                  "rotate(5deg) translate(70px)",
+                  "rotate(-5deg) translate(150px)"
+                ]}
+                enableHover={false}
+              />
+            </div>
+          </div>
+        </FadeInOnScroll>
       </div>
     </section>
   );
