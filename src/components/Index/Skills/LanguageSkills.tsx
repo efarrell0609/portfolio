@@ -97,25 +97,15 @@ export default function LanguageSkills({ currentColor }: LanguageSkillsProps) {
           {/* Integrated Tiny Chefs Image */}
           <div className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              <div className="relative overflow-hidden rounded-[24px] shadow-2xl ring-1 ring-gray-200 dark:ring-neutral-700">
                 <img
                   src={tinyChefsImg}
                   alt="Pixar-style chefs cooking with programming languages"
                   className="w-full max-w-md h-auto object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent"></div>
               </div>
-              
-              {/* Floating accent */}
-              <div 
-                className="absolute -top-2 -right-2 w-8 h-8 rounded-full opacity-60 blur-sm"
-                style={{ backgroundColor: currentColor }}
-              ></div>
-              <div 
-                className="absolute -bottom-4 -left-4 w-12 h-12 rounded-full opacity-40 blur-md"
-                style={{ backgroundColor: currentColor }}
-              ></div>
             </div>
           </div>
 

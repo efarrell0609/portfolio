@@ -97,31 +97,48 @@ const Computers: FC<{ isLandscape?: boolean }> = ({ isLandscape = false }) => {
       }
    });
 
-   // Simple, consistent positioning that works everywhere
+   // Responsive positioning and scaling
    const deviceWidth = window.innerWidth;
    const deviceHeight = window.innerHeight;
+   const aspectRatio = deviceWidth / deviceHeight;
    
-   // Simple scale based on screen width
-   let scale = 0.7;
-   if (deviceWidth <= 480) scale = 0.5;
-   else if (deviceWidth <= 768) scale = 0.6;
+   // Base scale - more conservative approach
+   let scale = 0.6;
+   if (deviceWidth <= 480) scale = 0.4;
+   else if (deviceWidth <= 768) scale = 0.5;
+   else if (deviceWidth <= 920) scale = 0.55;
+   else if (deviceWidth <= 1024) scale = 0.65;
    else scale = 0.7;
    
-   // Simple Y position - always centered vertically
-   let yPosition = -1.0;
+   // Y position - centered with adjustments for different screen types
+   let yPosition = -0.8;
    
-   // Fix for devices like NextHub with small height and wide width
-   const aspectRatio = deviceWidth / deviceHeight;
-   if (aspectRatio > 1.5 && deviceHeight < 800) {
-      yPosition = -1.2; // Move down more for wide, short screens
-      scale = scale * 0.6; // Scale way down
+   // Handle ultra-wide screens
+   if (aspectRatio > 2.0) {
+      scale = scale * 0.8;
+      yPosition = -1.0;
    }
    
-   // Landscape adjustments for mobile devices
+   // Handle very tall screens
+   if (aspectRatio < 0.6) {
+      scale = scale * 0.9;
+      yPosition = -0.6;
+   }
+   
+   // Specific fix for 920-1025px range on desktop
+   if (deviceWidth >= 920 && deviceWidth <= 1025) {
+      scale = scale * 0.9;
+      yPosition = -0.7;
+   }
+   
+   // Landscape mode adjustments - more conservative
    if (isLandscape && deviceWidth <= 1024) {
-      scale = scale * 2.8; // 3x bigger in landscape (0.8 * 3 = 2.4)
-      yPosition = -0.3; // Better positioning for larger laptop
+      scale = scale * 1.5; // Reduced from 2.8 to 1.5
+      yPosition = -0.5;
    }
+   
+   // Ensure scale doesn't get too extreme
+   scale = Math.max(0.3, Math.min(scale, 1.2));
    
    const position = [0, yPosition, 0];
 
@@ -149,11 +166,28 @@ const Computers: FC<{ isLandscape?: boolean }> = ({ isLandscape = false }) => {
 
 // Computers Canvas Component
 const ComputersCanvas = ({ isLandscape }: { isLandscape: boolean }) => {
+   const deviceWidth = window.innerWidth;
+   
+   // Responsive camera settings
+   let cameraFov = 35;
+   let cameraPosition: [number, number, number] = [0, 0, 8];
+   
+   if (deviceWidth <= 480) {
+      cameraFov = 40;
+      cameraPosition = [0, 0, 6];
+   } else if (deviceWidth <= 768) {
+      cameraFov = 38;
+      cameraPosition = [0, 0, 7];
+   } else if (deviceWidth >= 920 && deviceWidth <= 1025) {
+      cameraFov = 36;
+      cameraPosition = [0, 0, 7.5];
+   }
+   
    return (
       <Canvas
          frameloop="always"
          shadows
-         camera={{ position: [0, 0, 8], fov: 35 }}
+         camera={{ position: cameraPosition, fov: cameraFov }}
          gl={{ preserveDrawingBuffer: true }}
          style={{ cursor: 'grab' }}
       >
@@ -200,11 +234,11 @@ const HeroSection: FC<HeroSectionProps> = ({
          const height = window.innerHeight;
          const aspectRatio = width / height;
          
-         // Very comprehensive mobile detection - catch all mobile devices
-         const isMobileDevice = width <= 1024 || (width <= 1200 && aspectRatio > 1.1);
+         // More precise device detection - exclude desktop ranges
+         const isMobileDevice = width <= 768 || (width <= 1024 && aspectRatio > 1.3);
          const isLandscapeOrientation = width > height;
          
-         // Apply landscape layout to all mobile devices in landscape
+         // Apply landscape layout only to actual mobile devices in landscape
          const shouldUseLandscape = isMobileDevice && isLandscapeOrientation;
          
          setIsMobile(isMobileDevice);

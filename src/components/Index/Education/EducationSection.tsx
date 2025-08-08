@@ -11,13 +11,6 @@ interface EducationSectionProps {
 
 export default function EducationSection({ currentColor }: EducationSectionProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const [underlineWidth, setUnderlineWidth] = useState(0);
-
-  useEffect(() => {
-    if (titleRef.current) {
-      setUnderlineWidth(titleRef.current.offsetWidth);
-    }
-  }, []);
 
   const allCourses = [
     'CS 108 – Computing Fundamentals',
@@ -42,24 +35,22 @@ export default function EducationSection({ currentColor }: EducationSectionProps
   ];
 
   return (
-    <section id="education" className="py-12 px-4 sm:px-6 bg-gray-50 dark:bg-neutral-900">
+    <section id="education" className="py-20 px-6 sm:px-8 bg-gray-50 dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-800">
       
       <div className="max-w-6xl mx-auto">
         <FadeInOnScroll direction="up" duration={800} delay={200} elementId="education-header">
-          <div className="mb-16">
-            <h2 
-              ref={titleRef}
-              className="text-6xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+          <div className="mb-8">
+            <div
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full border-2 text-3xl sm:text-4xl font-extrabold tracking-wide uppercase"
+              style={{ color: currentColor, borderColor: currentColor }}
             >
+              <span
+                className="inline-block w-4 h-4 rounded-full"
+                style={{ backgroundColor: currentColor }}
+              />
               Education
-            </h2>
-            <div 
-              className="h-1.5 rounded-full"
-              style={{ 
-                backgroundColor: currentColor,
-                width: `${underlineWidth}px`
-              }}
-            />
+            </div>
+            <h2 className="sr-only">Education</h2>
           </div>
         </FadeInOnScroll>
         

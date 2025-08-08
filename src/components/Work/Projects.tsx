@@ -69,7 +69,7 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
         }}
         className="cursor-pointer"
       >
-                <div className="bg-white dark:bg-neutral-800 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-neutral-600 h-[460px] flex flex-col justify-between">
+                <div className="bg-white dark:bg-neutral-800 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-neutral-600 h-[500px] flex flex-col justify-between">
           {/* Project Image */}
           <div className="relative w-full h-56 mb-3 rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-700 flex-shrink-0 border-2 border-gray-200 dark:border-neutral-600">
             {image === '/assets/work/3d-laptop-preview.png' ? (
@@ -105,12 +105,12 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
           </div>
           
           {/* Project Info */}
-          <div className="space-y-2 flex flex-col">
+          <div className="space-y-2 flex flex-col flex-1">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed flex-1 text-sm">{description}</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm flex-1 min-h-[60px]">{description}</p>
             
             {/* Technologies */}
-            <div className="flex flex-wrap gap-1.5 mt-1">
+            <div className="flex flex-wrap gap-1.5 mt-1 flex-shrink-0 min-h-[32px]">
               {technologies.map((tech, techIndex) => (
                 <span
                   key={techIndex}
@@ -127,7 +127,7 @@ const ProjectCard: React.FC<TProject & { index: number }> = ({ title, descriptio
             </div>
             
             {/* Links */}
-            <div className="flex gap-3 pt-0">
+            <div className="flex gap-3 pt-2 mt-auto flex-shrink-0">
               {githubUrl ? (
                 <a
                   href={githubUrl}
@@ -216,7 +216,7 @@ const Projects: React.FC = () => {
         </div>
         
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-stretch !items-stretch">
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} index={index} />
           ))}
